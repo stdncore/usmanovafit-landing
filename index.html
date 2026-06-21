@@ -72,47 +72,121 @@
     #hero {
       min-height: 100svh;
       position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 0 0 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 100px 24px 60px;
       overflow: hidden;
     }
 
-    .hero-video {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center top;
-      z-index: 0;
-    }
-
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-    }
-
-    .hero-bg::after {
+    /* background gradient + fades */
+    #hero::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(
-        to bottom,
-        rgba(13,13,13,0.15) 0%,
-        rgba(13,13,13,0.4) 40%,
-        rgba(13,13,13,0.92) 80%,
-        rgba(13,13,13,1) 100%
-      );
+      background: radial-gradient(circle at 70% 40%, #1a1a1a 0%, #0D0D0D 60%);
+      z-index: 0;
+    }
+
+    /* figure column */
+    .hero-figure {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 520px; height: 520px;
+      max-width: 90vw; max-height: 90vw;
+      border-radius: 50%;
+      background: var(--pink);
+      filter: blur(120px);
+      opacity: 0.22;
+      animation: glowPulse 4s ease-in-out infinite;
+    }
+    @keyframes glowPulse {
+      0%, 100% { transform: scale(1); opacity: 0.18; }
+      50% { transform: scale(1.18); opacity: 0.32; }
+    }
+
+    .hero-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(232,82,122,0.2);
+      pointer-events: none;
+    }
+    .hero-ring.r1 { width: 130px; height: 130px; top: 12%; right: 6%; animation: spin 20s linear infinite; }
+    .hero-ring.r2 { width: 96px; height: 96px; bottom: 16%; left: 4%; border-color: rgba(232,82,122,0.12); animation: spin 15s linear infinite reverse; }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .hero-photo-wrap {
+      position: relative;
+      z-index: 2;
+      animation: float 6s ease-in-out infinite;
+      will-change: transform;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .hero-parallax {
+      transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+      will-change: transform;
+    }
+
+    .hero-photo {
+      display: block;
+      width: 100%;
+      max-width: 460px;
+      height: auto;
+      /* soft fade of the very bottom into the dark background */
+      -webkit-mask-image: linear-gradient(to bottom, #000 86%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 86%, transparent 100%);
+      filter: drop-shadow(0 20px 45px rgba(0,0,0,0.5));
+      opacity: 0;
+      animation: photoIn 1s ease 0.3s forwards;
+    }
+    @keyframes photoIn {
+      from { opacity: 0; transform: scale(0.92); }
+      to { opacity: 1; transform: scale(1); }
     }
 
     .hero-content {
       position: relative;
       z-index: 2;
       padding: 0 24px;
-      max-width: 680px;
+      max-width: 600px;
+    }
+
+    /* cascade reveal of text blocks */
+    .hero-content > * {
+      opacity: 0;
+      transform: translateY(28px);
+      animation: revealUp 0.8s cubic-bezier(0.25,0.4,0.25,1) forwards;
+    }
+    .hero-content > .hero-badge   { animation-delay: 0.1s; }
+    .hero-content > .hero-title   { animation-delay: 0.25s; }
+    .hero-content > .hero-sub     { animation-delay: 0.4s; }
+    .hero-content > .hero-actions { animation-delay: 0.55s; }
+    .hero-content > .hero-stats   { animation-delay: 0.7s; }
+    @keyframes revealUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-content > *, .hero-photo, .hero-photo-wrap, .hero-glow, .hero-ring {
+        animation: none !important; opacity: 1 !important; transform: none !important;
+      }
     }
 
     .hero-badge {
@@ -786,13 +860,33 @@
       color: rgba(136,136,136,0.5);
     }
 
+    /* ── TABLET / STACKED HERO ── */
+    @media (max-width: 900px) {
+      #hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: 120px 24px 70px;
+      }
+      .hero-content { order: 2; max-width: 640px; }
+      .hero-figure {
+        order: 1;
+        min-height: 42vh;
+        margin-bottom: 8px;
+      }
+      .hero-photo { max-width: 320px; margin: 0 auto; }
+      .hero-ring.r1 { right: 14%; }
+    }
+
     /* ── MOBILE ── */
     @media (max-width: 680px) {
       header { padding: 14px 16px; }
 
-      #hero { padding-bottom: 48px; }
-      .hero-content { padding: 0 16px; }
+      #hero { padding: 104px 16px 56px; }
+      .hero-content { padding: 0; }
       .hero-stats { gap: 20px; }
+      .hero-figure { min-height: 38vh; }
+      .hero-photo { max-width: 260px; }
+      .hero-glow { width: 320px; height: 320px; }
 
       section { padding: 60px 16px; }
 
@@ -827,10 +921,6 @@
 
 <!-- ЭКРАН 1: HERO -->
 <section id="hero">
-  <video class="hero-video" autoplay muted loop playsinline poster="assets/hero.png">
-    <source src="assets/promo.mp4" type="video/mp4">
-  </video>
-  <div class="hero-bg"></div>
   <div class="hero-content">
     <div class="hero-badge">580 000+ учениц</div>
     <h1 class="hero-title">
@@ -858,6 +948,17 @@
       <div class="stat">
         <div class="stat-num">4–6<span> кг</span></div>
         <div class="stat-label">уходит в первый месяц</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-figure" id="heroFigure">
+    <div class="hero-glow"></div>
+    <span class="hero-ring r1"></span>
+    <span class="hero-ring r2"></span>
+    <div class="hero-photo-wrap" id="heroPhotoWrap">
+      <div class="hero-parallax" id="heroParallax">
+        <img class="hero-photo" src="assets/kate.png" alt="Катя Усманова с гантелью" fetchpriority="high">
       </div>
     </div>
   </div>
@@ -1193,6 +1294,29 @@
       if (!isOpen) item.classList.add('open');
     });
   });
+
+  // Hero parallax on mouse (desktop only, respects reduced-motion)
+  const heroFigure = document.getElementById('heroFigure');
+  const heroParallax = document.getElementById('heroParallax');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = window.matchMedia('(pointer: fine)').matches;
+  if (heroFigure && heroParallax && !reduceMotion && finePointer) {
+    const hero = document.getElementById('hero');
+    let raf = null, tx = 0, ty = 0;
+    hero.addEventListener('mousemove', (e) => {
+      const r = hero.getBoundingClientRect();
+      const x = (e.clientX - r.left - r.width / 2) / r.width;
+      const y = (e.clientY - r.top - r.height / 2) / r.height;
+      tx = x * 24; ty = y * 24;
+      if (!raf) raf = requestAnimationFrame(() => {
+        heroParallax.style.transform = `translate(${tx}px, ${ty}px)`;
+        raf = null;
+      });
+    });
+    hero.addEventListener('mouseleave', () => {
+      heroParallax.style.transform = 'translate(0,0)';
+    });
+  }
 
   // Lead form
   const leadForm = document.getElementById('leadForm');
