@@ -1,0 +1,26 @@
+{
+  "name": "usmanovafit",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "studio": "remotion studio",
+    "video": "remotion render src/index.ts Promo assets/promo.mp4",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stdncore/usmanovafit-landing.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stdncore/usmanovafit-landing/issues"
+  },
+  "homepage": "https://github.com/stdncore/usmanovafit-landing#readme",
+  "description": "",
+  "dependencies": {
+    "@remotion/cli": "^4.0.481",
+    "remotion": "^4.0.481"
+  }
+}
