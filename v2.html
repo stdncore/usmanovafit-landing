@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Катя Усманова — Фитнес без диет</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal: #0ECFB3;
+      --teal-dark: #09A896;
+      --teal-dim: rgba(14,207,179,0.12);
+      --teal-border: rgba(14,207,179,0.25);
+      --dark: #0A0A0A;
+      --dark2: #111111;
+      --dark3: #191919;
+      --dark4: #222222;
+      --text: #F0F0F0;
+      --text2: rgba(240,240,240,0.6);
+      --text3: rgba(240,240,240,0.35);
+      --head: 'Barlow Condensed', sans-serif;
+      --body: 'Barlow', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--body);
+      background: var(--dark);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(10,10,10,0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(14,207,179,0.08);
+    }
+
+    .logo {
+      font-family: var(--head);
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .logo span { color: var(--teal); }
+
+    .header-btn {
+      background: var(--teal);
+      color: #0A0A0A;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 22px;
+      font-family: var(--head);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .header-btn:hover { background: #12E8CC; transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100svh;
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 32px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 100px 32px 60px;
+      overflow: hidden;
+    }
+
+    .hero-bg-glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      right: -40px; top: 50%;
+      transform: translateY(-50%);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(14,207,179,0.18) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Live badge */
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(14,207,179,0.1);
+      border: 1px solid var(--teal-border);
+      border-radius: 4px;
+      padding: 5px 12px 5px 10px;
+      font-family: var(--head);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 22px;
+    }
+    .live-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--teal);
+      animation: livePulse 1.8s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    @keyframes livePulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    .hero-title {
+      font-family: var(--head);
+      font-size: clamp(44px, 8vw, 88px);
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .hero-title em {
+      font-style: normal;
+      color: var(--teal);
+      display: block;
+    }
+
+    .hero-tagline {
+      font-family: var(--head);
+      font-size: clamp(16px, 2.5vw, 22px);
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text2);
+      margin-bottom: 28px;
+      line-height: 1.4;
+    }
+
+    /* Goal pills */
+    .goal-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+    .goal-pill {
+      padding: 7px 14px;
+      border: 1px solid rgba(240,240,240,0.15);
+      border-radius: 4px;
+      font-family: var(--body);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text2);
+      background: rgba(255,255,255,0.04);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .goal-pill:hover,
+    .goal-pill.active {
+      border-color: var(--teal);
+      color: var(--teal);
+      background: var(--teal-dim);
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--teal);
+      color: #0A0A0A;
+      border: none;
+      border-radius: 6px;
+      padding: 18px 36px;
+      font-family: var(--head);
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 0 0 0 rgba(14,207,179,0);
+    }
+    .hero-cta:hover {
+      background: #12E8CC;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(14,207,179,0.3);
+    }
+    .hero-cta svg { width: 18px; height: 18px; }
+
+    .hero-proof {
+      display: flex;
+      gap: 28px;
+      margin-top: 36px;
+      flex-wrap: wrap;
+    }
+    .hstat { display: flex; flex-direction: column; gap: 2px; }
+    .hstat-num {
+      font-family: var(--head);
+      font-size: clamp(26px, 4vw, 38px);
+      font-weight: 900;
+      color: var(--text);
+      line-height: 1;
+      letter-spacing: -0.01em;
+    }
+    .hstat-num span { color: var(--teal); }
+    .hstat-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      max-width: 110px;
+      line-height: 1.35;
+    }
+
+    /* Figure column */
+    .hero-figure {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+    }
+
+    .fig-glow {
+      position: absolute;
+      width: 480px; height: 480px;
+      max-width: 90vw;
+      border-radius: 50%;
+      background: var(--teal);
+      filter: blur(100px);
+      opacity: 0.15;
+      animation: glowPulse 5s ease-in-out infinite;
+    }
+    @keyframes glowPulse {
+      0%, 100% { transform: scale(1); opacity: 0.13; }
+      50% { transform: scale(1.15); opacity: 0.22; }
+    }
+
+    .fig-ring {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .fig-ring.r1 {
+      width: 340px; height: 340px;
+      max-width: 80vw; max-height: 80vw;
+      border: 1px solid rgba(14,207,179,0.15);
+      animation: spinR 25s linear infinite;
+    }
+    .fig-ring.r2 {
+      width: 240px; height: 240px;
+      max-width: 60vw; max-height: 60vw;
+      border: 1px dashed rgba(14,207,179,0.1);
+      animation: spinR 18s linear infinite reverse;
+    }
+    @keyframes spinR {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .fig-photo-wrap {
+      position: relative;
+      z-index: 2;
+      animation: float 7s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-18px); }
+    }
+
+    .fig-parallax {
+      transition: transform 0.45s cubic-bezier(0.22,1,0.36,1);
+    }
+
+    .fig-photo {
+      display: block;
+      width: 100%;
+      max-width: 440px;
+      height: auto;
+      mask-image: linear-gradient(to bottom, #000 82%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, #000 82%, transparent 100%);
+      filter: drop-shadow(0 24px 48px rgba(0,0,0,0.6));
+      opacity: 0;
+      animation: photoIn 1s ease 0.2s forwards;
+    }
+    @keyframes photoIn {
+      from { opacity: 0; transform: scale(0.93) translateY(12px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* Hero reveal animations */
+    .hero-content > * {
+      opacity: 0;
+      transform: translateY(24px);
+      animation: revUp 0.7s cubic-bezier(0.25,0.4,0.25,1) forwards;
+    }
+    .hero-content > .live-badge  { animation-delay: 0.05s; }
+    .hero-content > .hero-title  { animation-delay: 0.18s; }
+    .hero-content > .hero-tagline { animation-delay: 0.3s; }
+    .hero-content > .goal-pills  { animation-delay: 0.42s; }
+    .hero-content > .hero-cta    { animation-delay: 0.54s; }
+    .hero-content > .hero-proof  { animation-delay: 0.66s; }
+    @keyframes revUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-content > *, .fig-photo, .fig-photo-wrap, .fig-glow, .fig-ring {
+        animation: none !important; opacity: 1 !important; transform: none !important;
+      }
+    }
+
+    /* Proof strip */
+    .proof-strip {
+      background: var(--dark3);
+      border-top: 1px solid rgba(14,207,179,0.1);
+      border-bottom: 1px solid rgba(14,207,179,0.1);
+      padding: 18px 24px;
+      overflow: hidden;
+    }
+    .proof-strip-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .strip-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--head);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--text2);
+    }
+    .strip-icon {
+      width: 32px; height: 32px;
+      border-radius: 6px;
+      background: var(--teal-dim);
+      border: 1px solid var(--teal-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .strip-icon svg { width: 16px; height: 16px; color: var(--teal); }
+
+    /* ── SECTION SHARED ── */
+    section { padding: 80px 24px; }
+
+    .stag {
+      font-family: var(--head);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 10px;
+    }
+
+    .stitle {
+      font-family: var(--head);
+      font-size: clamp(32px, 6vw, 58px);
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .ssub {
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--text2);
+      line-height: 1.6;
+      max-width: 500px;
+    }
+
+    /* ── PROGRAMS ── */
+    #programs { background: var(--dark2); }
+
+    .programs-inner { max-width: 1100px; margin: 0 auto; }
+
+    .programs-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      padding: 9px 18px;
+      border-radius: 4px;
+      font-family: var(--head);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: transparent;
+      color: var(--text2);
+      transition: all 0.2s;
+      font-family: var(--head);
+    }
+    .tab:hover { border-color: var(--teal); color: var(--teal); }
+    .tab.active {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: #0A0A0A;
+    }
+
+    .programs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 18px;
+    }
+
+    .pcard {
+      background: var(--dark3);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .pcard:hover {
+      transform: translateY(-5px);
+      border-color: var(--teal-border);
+      box-shadow: 0 16px 40px rgba(14,207,179,0.08);
+    }
+
+    .pcard-img-wrap {
+      position: relative;
+      aspect-ratio: 16/10;
+      overflow: hidden;
+    }
+
+    .pcard-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s;
+    }
+    .pcard:hover .pcard-img { transform: scale(1.05); }
+
+    .pcard-badge {
+      position: absolute;
+      top: 10px; left: 10px;
+      background: var(--teal);
+      color: #0A0A0A;
+      font-family: var(--head);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 3px;
+    }
+
+    .pcard-body {
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pcard-type {
+      font-family: var(--head);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 6px;
+    }
+
+    .pcard-title {
+      font-family: var(--head);
+      font-size: 22px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      margin-bottom: 10px;
+      line-height: 1.1;
+    }
+
+    .pcard-desc {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text2);
+      line-height: 1.55;
+      flex: 1;
+      margin-bottom: 18px;
+    }
+    .pcard-desc strong { color: rgba(240,240,240,0.85); font-weight: 600; }
+
+    .pcard-btn {
+      display: block;
+      text-align: center;
+      background: transparent;
+      color: var(--teal);
+      border: 1px solid var(--teal-border);
+      border-radius: 4px;
+      padding: 11px 18px;
+      font-family: var(--head);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .pcard-btn:hover {
+      background: var(--teal);
+      color: #0A0A0A;
+    }
+
+    .pcard[data-cat].hidden { display: none; }
+
+    /* ── LEAD FORM ── */
+    #lead { background: var(--dark); }
+
+    .lead-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      background: var(--dark3);
+      border: 1px solid var(--teal-border);
+      border-radius: 16px;
+      padding: 48px 44px;
+      text-align: center;
+      box-shadow: 0 0 80px rgba(14,207,179,0.06);
+    }
+
+    .lead-tag { margin-bottom: 12px; }
+
+    .lead-title {
+      font-family: var(--head);
+      font-size: clamp(28px, 5vw, 46px);
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 0.95;
+      letter-spacing: -0.01em;
+      margin-bottom: 12px;
+    }
+
+    .lead-sub {
+      font-size: 15px;
+      color: var(--text2);
+      line-height: 1.6;
+      max-width: 440px;
+      margin: 0 auto 28px;
+    }
+
+    /* Trust chips */
+    .trust-chips {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: var(--teal-dim);
+      border: 1px solid var(--teal-border);
+      border-radius: 4px;
+      font-family: var(--head);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--teal);
+    }
+    .chip svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+    .lead-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-width: 400px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .field { display: flex; flex-direction: column; gap: 6px; }
+
+    .field label {
+      font-family: var(--head);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text2);
+    }
+
+    .field input {
+      width: 100%;
+      min-height: 50px;
+      padding: 13px 16px;
+      background: var(--dark2);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: var(--body);
+      font-size: 15px;
+      font-weight: 400;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .field input::placeholder { color: var(--text3); }
+    .field input:focus {
+      outline: none;
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(14,207,179,0.18);
+    }
+    .field input.invalid {
+      border-color: #f04545;
+      box-shadow: 0 0 0 3px rgba(240,69,69,0.15);
+    }
+
+    .field-error {
+      font-size: 12px;
+      color: #f07070;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.2s;
+    }
+    .field.show-error .field-error { max-height: 20px; }
+
+    .lead-submit {
+      min-height: 54px;
+      background: var(--teal);
+      color: #0A0A0A;
+      border: none;
+      border-radius: 6px;
+      padding: 15px 32px;
+      font-family: var(--head);
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      margin-top: 4px;
+    }
+    .lead-submit:hover {
+      background: #12E8CC;
+      box-shadow: 0 6px 24px rgba(14,207,179,0.3);
+    }
+    .lead-submit:active { transform: translateY(1px); }
+    .lead-submit:disabled { opacity: 0.65; cursor: default; }
+
+    .lead-consent {
+      font-size: 11px;
+      color: var(--text3);
+      line-height: 1.4;
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    .lead-messengers {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 24px;
+    }
+
+    .msgr-btn {
+      width: 46px; height: 46px;
+      border-radius: 6px;
+      background: var(--dark2);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text2);
+      text-decoration: none;
+      font-family: var(--head);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      transition: all 0.2s;
+    }
+    .msgr-btn:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+      transform: translateY(-2px);
+    }
+    .msgr-btn svg { width: 20px; height: 20px; }
+
+    .lead-success {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 0;
+    }
+    .lead-success.show { display: flex; }
+
+    .success-check {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: var(--teal-dim);
+      border: 2px solid var(--teal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .success-check svg { width: 32px; height: 32px; color: var(--teal); }
+
+    .success-title {
+      font-family: var(--head);
+      font-size: 26px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .success-text {
+      font-size: 14px;
+      color: var(--text2);
+      max-width: 360px;
+      text-align: center;
+      line-height: 1.55;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark2);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 36px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: var(--head);
+      font-size: 18px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .footer-logo span { color: var(--teal); }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      justify-content: center;
+    }
+    .footer-links a {
+      font-size: 13px;
+      color: var(--text3);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--text); }
+
+    .footer-copy {
+      font-size: 12px;
+      color: rgba(240,240,240,0.2);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      #hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: 110px 24px 64px;
+      }
+      .hero-content { order: 2; }
+      .hero-figure { order: 1; min-height: 44vh; margin-bottom: 8px; }
+      .fig-photo { max-width: 300px; margin: 0 auto; }
+      .fig-ring.r1 { width: 260px; height: 260px; }
+      .fig-ring.r2 { width: 180px; height: 180px; }
+    }
+
+    @media (max-width: 680px) {
+      header { padding: 12px 16px; }
+
+      #hero { padding: 96px 16px 52px; gap: 24px; }
+      .hero-figure { min-height: 36vh; }
+      .fig-photo { max-width: 240px; }
+      .fig-glow { width: 300px; height: 300px; }
+
+      section { padding: 56px 16px; }
+
+      .proof-strip-inner { gap: 20px; }
+      .strip-item { font-size: 12px; }
+
+      .programs-head { flex-direction: column; align-items: flex-start; }
+      .programs-grid { grid-template-columns: 1fr; }
+
+      .lead-inner { padding: 32px 20px; }
+      .trust-chips { gap: 6px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a class="logo" href="#">Усманова<span>Fit</span></a>
+  <button class="header-btn" onclick="document.getElementById('programs').scrollIntoView({behavior:'smooth'})">
+    Выбрать программу
+  </button>
+</header>
+
+<!-- ══ ЭКРАН 1: HERO ══ -->
+<section id="hero">
+  <div class="hero-content">
+    <div class="live-badge">
+      <span class="live-dot"></span>
+      3 696 тренируются прямо сейчас
+    </div>
+
+    <h1 class="hero-title">
+      Тело<br>
+      в форму<br>
+      <em>без диет</em>
+    </h1>
+
+    <p class="hero-tagline">
+      С чемпионкой Катей Усмановой —<br>
+      20 минут в день, дома, с нуля
+    </p>
+
+    <div class="goal-pills">
+      <a class="goal-pill active" href="#programs">Похудеть</a>
+      <a class="goal-pill" href="#programs">Упругая попа</a>
+      <a class="goal-pill" href="#programs">Плоский живот</a>
+      <a class="goal-pill" href="#programs">После родов</a>
+      <a class="goal-pill" href="#programs">В зал</a>
+    </div>
+
+    <a class="hero-cta" href="#programs">
+      Подобрать программу
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </a>
+
+    <div class="hero-proof">
+      <div class="hstat">
+        <div class="hstat-num">580<span>K+</span></div>
+        <div class="hstat-label">учениц по миру</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-num">10<span>+</span></div>
+        <div class="hstat-label">программ под цель</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-num">−4<span>–6кг</span></div>
+        <div class="hstat-label">уходит за первый месяц</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-figure" id="heroFigure">
+    <div class="hero-bg-glow"></div>
+    <div class="fig-glow"></div>
+    <span class="fig-ring r1"></span>
+    <span class="fig-ring r2"></span>
+    <div class="fig-photo-wrap">
+      <div class="fig-parallax" id="figParallax">
+        <img class="fig-photo" src="assets/kate.png" alt="Катя Усманова" fetchpriority="high">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Proof strip -->
+<div class="proof-strip">
+  <div class="proof-strip-inner">
+    <div class="strip-item">
+      <div class="strip-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      </div>
+      20–30 минут в день
+    </div>
+    <div class="strip-item">
+      <div class="strip-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      Дома без инвентаря
+    </div>
+    <div class="strip-item">
+      <div class="strip-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+      </div>
+      Без диет и голода
+    </div>
+    <div class="strip-item">
+      <div class="strip-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      </div>
+      Подходит новичку
+    </div>
+    <div class="strip-item">
+      <div class="strip-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+      </div>
+      Из любой точки мира
+    </div>
+  </div>
+</div>
+
+<!-- ══ ЭКРАН 2: ПРОГРАММЫ ══ -->
+<section id="programs">
+  <div class="programs-inner">
+    <div class="programs-head">
+      <div>
+        <div class="stag">Каталог программ</div>
+        <h2 class="stitle">Выбери<br>свою цель</h2>
+      </div>
+      <div class="tabs">
+        <button class="tab active" data-filter="all">Все</button>
+        <button class="tab" data-filter="home">Дома</button>
+        <button class="tab" data-filter="gym">В зале</button>
+        <button class="tab" data-filter="nutrition">Питание</button>
+        <button class="tab" data-filter="post">После родов</button>
+      </div>
+    </div>
+
+    <div class="programs-grid">
+
+      <div class="pcard" data-cat="home">
+        <div class="pcard-img-wrap">
+          <img class="pcard-img" src="assets/9993958238de93cfb42027db3748b8fe.png" alt="Метод Усмановой" loading="lazy">
+          <span class="pcard-badge">Флагман</span>
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-type">Программа · Дома</div>
+          <div class="pcard-title">Метод Усмановой</div>
+          <p class="pcard-desc"><strong>Освоите технику и втянетесь в регулярные тренировки</strong> — без травм и через силу. Первая программа, с которой начинают все ученицы Кати.</p>
+          <a class="pcard-btn" href="https://usmanovafit.gymteam.ru/maysale2026_7" target="_blank">Подробнее</a>
+        </div>
+      </div>
+
+      <div class="pcard" data-cat="home">
+        <div class="pcard-img-wrap">
+          <img class="pcard-img" src="assets/b425fe3374dfff385aa5305db7156a5f.png" alt="Марафон стройности" loading="lazy">
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-type">Марафон · Дома</div>
+          <div class="pcard-title">Марафон стройности</div>
+          <p class="pcard-desc"><strong>Первый видимый результат за 21 день</strong> — уходит первый жир, появляется тонус и лёгкость. Для тех, кто стартует с нуля.</p>
+          <a class="pcard-btn" href="https://usmanovafit.gymteam.ru/maysale2026_7" target="_blank">Подробнее</a>
+        </div>
+      </div>
+
+      <div class="pcard" data-cat="home">
+        <div class="pcard-img-wrap">
+          <img class="pcard-img" src="assets/d8acf94578d7aa9c71f7b487c818a4b4.png" alt="Упругая попа 1.0" loading="lazy">
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-type">Марафон · Дома</div>
+          <div class="pcard-title">Упругая попа 1.0</div>
+          <p class="pcard-desc"><strong>Первый объём и подтянутость ягодиц</strong> — с собственным весом. Для тех, кто впервые целенаправленно работает над попой.</p>
+          <a class="pcard-btn" href="https://usmanovafit.gymteam.ru/maysale2026_7" target="_blank">Подробнее</a>
+        </div>
+      </div>
+
+      <div class="pcard" data-cat="home">
+        <div class="pcard-img-wrap">
+          <img class="pcard-img" src="assets/24010713a536c083b2ec7afd7c1d1a14.png" alt="Упругая попа 2.0" loading="lazy">
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-type">Марафон · Дома</div>
+          <div class="pcard-title">Упругая попа 2.0</div>
+          <p class="pcard-desc"><strong>Плотные, упругие ягодицы</strong> — следующий уровень после 1.0. С резинкой и утяжелителями, для подготовленных.</p>
+          <a class="pcard-btn" href="https://usmanovafit.gymteam.ru/maysale2026_7" target="_blank">Подробнее</a>
+        </div>
+      </div>
+
+      <div class="pcard" data-cat="home">
+        <div class="pcard-img-wrap">
+          <img class="pcard-img" src="assets/9c599cbd2f0e39fa1bd12c09072e4db2.png" alt="Плоский живот" loading="lazy">
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-type">Марафон · Дома</div>
+          <div class="pcard-title">Плоский живот</div>
+          <p class="pcard-desc"><strong>Убрать вываливающийся живот,</strong> который не уходит даже после похудения. Тренировки на глубокие мышцы пресса.</p>
+          <a class="pcard-btn" href="https://usmanovafit.gymteam.ru/maysale2026_7" target="_blank">Подробнее</a>
+        </div>
+      </div>
+
+      <div class="pcard" data-cat="gym">
+        <div class="pcard-img-wrap">
+          <img class="pcard-img" src="assets/8261c10bf388dcc255c1368cf0ada516.png" alt="Для зала" loading="lazy">
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-type">Курс · В зале</div>
+          <div class="pcard-title">Для зала</div>
+          <p class="pcard-desc"><strong>Мышцы снова растут</strong> — когда дома прогресс уже встал. Готовая программа для зала на мышечный объём.</p>
+          <a class="pcard-btn" href="https://usmanovafit.gymteam.ru/maysale2026_7" target="_blank">Подробнее</a>
+        </div>
+      </div>
+
+      <div class="pcard" data-cat="nutrition">
+        <div class="pcard-img-wrap">
+          <img class="pcard-img" src="assets/468c85a2ea7c865ae30349257111fd6f.png" alt="ИИ-нутрициолог" loading="lazy">
+          <span class="pcard-badge">Бестселлер</span>
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-type">Сервис · Питание</div>
+          <div class="pcard-title">ИИ-нутрициолог</div>
+          <p class="pcard-desc"><strong>Едите без срывов и понимаете своё тело</strong> — питание, тренировки, анализы в кармане. Подскажет, поддержит, не осудит.</p>
+          <a class="pcard-btn" href="https://usmanovafit.gymteam.ru/maysale2026_7" target="_blank">Подробнее</a>
+        </div>
+      </div>
+
+      <div class="pcard" data-cat="post">
+        <div class="pcard-img-wrap">
+          <img class="pcard-img" src="assets/670dcb85eab5786fd01def671ea3da4f.png" alt="Для беременных" loading="lazy">
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-type">Курс · Беременность</div>
+          <div class="pcard-title">Для беременных</div>
+          <p class="pcard-desc"><strong>Лёгкие роды и тело без перегрузки</strong> — безопасные тренировки на всех триместрах. Спина, тазовое дно, подготовка к родам.</p>
+          <a class="pcard-btn" href="https://usmanovafit.gymteam.ru/maysale2026_7" target="_blank">Подробнее</a>
+        </div>
+      </div>
+
+      <div class="pcard" data-cat="post">
+        <div class="pcard-img-wrap">
+          <img class="pcard-img" src="assets/b88878684e2c798665d456e839aae6c7.png" alt="Восстановление после родов" loading="lazy">
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-type">Курс · После родов</div>
+          <div class="pcard-title">После родов</div>
+          <p class="pcard-desc"><strong>Вернётесь в форму после родов и кесарева</strong> — сначала диастаз, тазовое дно и осанка, потом стройность и тонус.</p>
+          <a class="pcard-btn" href="https://usmanovafit.gymteam.ru/maysale2026_7" target="_blank">Подробнее</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ ЭКРАН 3: ФОРМА ══ -->
+<section id="lead">
+  <div class="lead-inner">
+    <div class="lead-tag stag">Бесплатный подбор</div>
+    <h2 class="lead-title">Не знаете<br>с чего начать?</h2>
+    <p class="lead-sub">Напишите — подберём программу под вашу цель и уровень. Это бесплатно и быстро.</p>
+
+    <div class="trust-chips">
+      <div class="chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        Бесплатно
+      </div>
+      <div class="chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        Ответим быстро
+      </div>
+      <div class="chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Без обязательств
+      </div>
+    </div>
+
+    <form class="lead-form" id="leadForm" novalidate>
+      <div class="field" id="field-name">
+        <label for="lead-name">Ваше имя</label>
+        <input type="text" id="lead-name" name="name" placeholder="Катя" autocomplete="name" required>
+        <span class="field-error">Введите имя — минимум 2 буквы</span>
+      </div>
+      <div class="field" id="field-phone">
+        <label for="lead-phone">Телефон</label>
+        <input type="tel" id="lead-phone" name="phone" placeholder="+7 900 000-00-00" autocomplete="tel" inputmode="tel" required>
+        <span class="field-error">Введите корректный телефон</span>
+      </div>
+      <button type="submit" class="lead-submit" id="leadSubmit">Подобрать программу</button>
+      <p class="lead-consent">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных</p>
+    </form>
+
+    <div class="lead-success" id="leadSuccess">
+      <div class="success-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="success-title">Заявка принята!</div>
+      <p class="success-text">Спасибо, <span id="successName">Катя</span>! Свяжемся с вами и подберём программу под вашу цель.</p>
+    </div>
+
+    <div class="lead-messengers">
+      <a class="msgr-btn" href="https://t.me/UsmanovaSport_bot" target="_blank" rel="noopener" aria-label="Telegram" title="Telegram">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+      </a>
+      <a class="msgr-btn" href="https://vk.ru/usmanovateam" target="_blank" rel="noopener" aria-label="VK" title="VK">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.79 16.4c-5.07 0-7.96-3.48-8.08-9.26h2.54c.08 4.25 1.95 6.04 3.43 6.41V7.14h2.39v3.66c1.46-.16 3-1.82 3.51-3.66h2.39c-.39 2.27-2.05 3.93-3.23 4.61 1.18.55 3.07 2 3.79 4.65h-2.63c-.56-1.75-1.97-3.1-3.83-3.29v3.29h-.68z"/></svg>
+      </a>
+      <a class="msgr-btn" href="https://max.ru/id7734434533_1_bot" target="_blank" rel="noopener" aria-label="MAX" title="MAX">MAX</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Усманова<span>Fit</span></div>
+  <div class="footer-links">
+    <a href="https://usmanovafit.gymteam.ru/cms/system/contact" target="_blank">Служба заботы</a>
+    <a href="https://usmanovafit.gymteam.ru/oferta_fitnes" target="_blank">Оферта</a>
+    <a href="https://usmanovafit.gymteam.ru/protection_fitnes" target="_blank">Конфиденциальность</a>
+    <a href="https://usmanovafit.gymteam.ru/personaldata" target="_blank">Персональные данные</a>
+  </div>
+  <div class="footer-copy">© ООО «Онлайн Фитнес», 2020–2026 · ИНН 7734434533</div>
+</footer>
+
+<script>
+  // ── Tabs ──
+  const tabs = document.querySelectorAll('.tab');
+  const pcards = document.querySelectorAll('.pcard[data-cat]');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const filter = tab.dataset.filter;
+      pcards.forEach(card => {
+        card.classList.toggle('hidden', filter !== 'all' && card.dataset.cat !== filter);
+      });
+    });
+  });
+
+  // ── Hero parallax ──
+  const heroFig = document.getElementById('heroFigure');
+  const figPx = document.getElementById('figParallax');
+  const noMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePtr = window.matchMedia('(pointer: fine)').matches;
+  if (heroFig && figPx && !noMotion && finePtr) {
+    const hero = document.getElementById('hero');
+    let raf = null, tx = 0, ty = 0;
+    hero.addEventListener('mousemove', (e) => {
+      const r = hero.getBoundingClientRect();
+      tx = ((e.clientX - r.left - r.width / 2) / r.width) * 20;
+      ty = ((e.clientY - r.top - r.height / 2) / r.height) * 20;
+      if (!raf) raf = requestAnimationFrame(() => {
+        figPx.style.transform = `translate(${tx}px,${ty}px)`;
+        raf = null;
+      });
+    });
+    hero.addEventListener('mouseleave', () => {
+      figPx.style.transform = 'translate(0,0)';
+    });
+  }
+
+  // ── Form ──
+  const form = document.getElementById('leadForm');
+  const nameI = document.getElementById('lead-name');
+  const phoneI = document.getElementById('lead-phone');
+
+  function setErr(input, on) {
+    input.closest('.field').classList.toggle('show-error', on);
+    input.classList.toggle('invalid', on);
+  }
+  function okName() { return nameI.value.trim().length >= 2; }
+  function okPhone() { const d = phoneI.value.replace(/\D/g,''); return d.length >= 10 && d.length <= 15; }
+
+  nameI.addEventListener('input', () => { if (okName()) setErr(nameI, false); });
+  phoneI.addEventListener('input', () => { if (okPhone()) setErr(phoneI, false); });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const vn = okName(), vp = okPhone();
+    setErr(nameI, !vn);
+    setErr(phoneI, !vp);
+    if (!vn || !vp) { (!vn ? nameI : phoneI).focus(); return; }
+
+    const btn = document.getElementById('leadSubmit');
+    btn.disabled = true;
+    btn.textContent = 'Отправляем…';
+    setTimeout(() => {
+      document.getElementById('successName').textContent = nameI.value.trim();
+      form.style.display = 'none';
+      document.querySelector('.lead-consent')?.remove();
+      document.getElementById('leadSuccess').classList.add('show');
+    }, 700);
+  });
+
+  // ── Goal pill active on click ──
+  document.querySelectorAll('.goal-pill').forEach(pill => {
+    pill.addEventListener('click', (e) => {
+      document.querySelectorAll('.goal-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
