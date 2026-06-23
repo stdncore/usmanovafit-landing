@@ -1,1367 +1,1045 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Катя Усманова — Фитнес-программы</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --pink: #E8527A;
-      --pink-light: #F07098;
-      --dark: #0D0D0D;
-      --dark2: #161616;
-      --dark3: #1E1E1E;
-      --gray: #888;
-      --text: #F5F5F5;
-      --font: 'Montserrat', 'Helvetica Neue', sans-serif;
-    }
-
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: var(--font);
-      background: var(--dark);
-      color: var(--text);
-      overflow-x: hidden;
-    }
-
-    /* ── HEADER ── */
-    header {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 16px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(13,13,13,0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .logo {
-      font-size: 15px;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--text);
-      text-decoration: none;
-    }
-    .logo span { color: var(--pink); }
-
-    .header-btn {
-      background: var(--pink);
-      color: #fff;
-      border: none;
-      border-radius: 100px;
-      padding: 10px 22px;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      letter-spacing: 0.02em;
-      transition: background 0.2s;
-      font-family: var(--font);
-    }
-    .header-btn:hover { background: var(--pink-light); }
-
-    /* ── HERO ── */
-    #hero {
-      min-height: 100svh;
-      position: relative;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      gap: 40px;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 100px 24px 60px;
-      overflow: hidden;
-    }
-
-    /* background gradient + fades */
-    #hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 70% 40%, #1a1a1a 0%, #0D0D0D 60%);
-      z-index: 0;
-    }
-
-    /* figure column */
-    .hero-figure {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 60vh;
-    }
-
-    .hero-glow {
-      position: absolute;
-      width: 520px; height: 520px;
-      max-width: 90vw; max-height: 90vw;
-      border-radius: 50%;
-      background: var(--pink);
-      filter: blur(120px);
-      opacity: 0.22;
-      animation: glowPulse 4s ease-in-out infinite;
-    }
-    @keyframes glowPulse {
-      0%, 100% { transform: scale(1); opacity: 0.18; }
-      50% { transform: scale(1.18); opacity: 0.32; }
-    }
-
-    .hero-ring {
-      position: absolute;
-      border-radius: 50%;
-      border: 1px solid rgba(232,82,122,0.2);
-      pointer-events: none;
-    }
-    .hero-ring.r1 { width: 130px; height: 130px; top: 12%; right: 6%; animation: spin 20s linear infinite; }
-    .hero-ring.r2 { width: 96px; height: 96px; bottom: 16%; left: 4%; border-color: rgba(232,82,122,0.12); animation: spin 15s linear infinite reverse; }
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    .hero-photo-wrap {
-      position: relative;
-      z-index: 2;
-      animation: float 6s ease-in-out infinite;
-      will-change: transform;
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
-    }
-
-    .hero-parallax {
-      transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
-      will-change: transform;
-    }
-
-    .hero-photo {
-      display: block;
-      width: 100%;
-      max-width: 460px;
-      height: auto;
-      /* soft fade of the very bottom into the dark background */
-      -webkit-mask-image: linear-gradient(to bottom, #000 86%, transparent 100%);
-      mask-image: linear-gradient(to bottom, #000 86%, transparent 100%);
-      filter: drop-shadow(0 20px 45px rgba(0,0,0,0.5));
-      opacity: 0;
-      animation: photoIn 1s ease 0.3s forwards;
-    }
-    @keyframes photoIn {
-      from { opacity: 0; transform: scale(0.92); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      padding: 0 24px;
-      max-width: 600px;
-    }
-
-    /* cascade reveal of text blocks */
-    .hero-content > * {
-      opacity: 0;
-      transform: translateY(28px);
-      animation: revealUp 0.8s cubic-bezier(0.25,0.4,0.25,1) forwards;
-    }
-    .hero-content > .hero-badge   { animation-delay: 0.1s; }
-    .hero-content > .hero-title   { animation-delay: 0.25s; }
-    .hero-content > .hero-sub     { animation-delay: 0.4s; }
-    .hero-content > .hero-actions { animation-delay: 0.55s; }
-    .hero-content > .hero-stats   { animation-delay: 0.7s; }
-    @keyframes revealUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .hero-content > *, .hero-photo, .hero-photo-wrap, .hero-glow, .hero-ring {
-        animation: none !important; opacity: 1 !important; transform: none !important;
-      }
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(232,82,122,0.15);
-      border: 1px solid rgba(232,82,122,0.3);
-      border-radius: 100px;
-      padding: 6px 14px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--pink-light);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 20px;
-    }
-
-    .hero-badge::before {
-      content: '';
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--pink);
-      animation: pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.7); }
-    }
-
-    .hero-title {
-      font-size: clamp(32px, 7vw, 64px);
-      font-weight: 900;
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-      margin-bottom: 16px;
-    }
-
-    .hero-title em {
-      font-style: normal;
-      color: var(--pink);
-    }
-
-    .hero-sub {
-      font-size: clamp(15px, 2.5vw, 18px);
-      color: rgba(245,245,245,0.65);
-      line-height: 1.55;
-      margin-bottom: 32px;
-      max-width: 480px;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-    }
-
-    .btn-primary {
-      background: var(--pink);
-      color: #fff;
-      border: none;
-      border-radius: 100px;
-      padding: 16px 36px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: transform 0.15s, background 0.2s;
-      font-family: var(--font);
-      text-decoration: none;
-      display: inline-block;
-    }
-    .btn-primary:hover { background: var(--pink-light); transform: translateY(-1px); }
-    .btn-primary:active { transform: translateY(0); }
-
-    .hero-stats {
-      display: flex;
-      gap: 32px;
-      margin-top: 36px;
-      flex-wrap: wrap;
-    }
-
-    .stat { display: flex; flex-direction: column; gap: 4px; }
-    .stat-num {
-      font-size: clamp(22px, 4vw, 32px);
-      font-weight: 900;
-      color: var(--text);
-      letter-spacing: -0.02em;
-    }
-    .stat-num span { color: var(--pink); }
-    .stat-label {
-      font-size: 12px;
-      color: var(--gray);
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      max-width: 120px;
-      line-height: 1.4;
-    }
-
-    /* ── SECTION SHARED ── */
-    section { padding: 80px 24px; }
-
-    .section-tag {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--pink);
-      margin-bottom: 12px;
-    }
-
-    .section-title {
-      font-size: clamp(26px, 5vw, 46px);
-      font-weight: 900;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      margin-bottom: 16px;
-    }
-
-    .section-sub {
-      font-size: 16px;
-      color: rgba(245,245,245,0.55);
-      line-height: 1.6;
-      max-width: 520px;
-    }
-
-    /* ── ABOUT / TRAINER ── */
-    #about {
-      background: var(--dark2);
-    }
-
-    .about-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: center;
-    }
-
-    .about-photo-wrap {
-      position: relative;
-    }
-
-    .about-photo {
-      width: 100%;
-      aspect-ratio: 3/4;
-      object-fit: cover;
-      border-radius: 20px;
-      display: block;
-    }
-
-    .about-photo-badge {
-      position: absolute;
-      bottom: 24px;
-      left: 24px;
-      right: 24px;
-      background: rgba(13,13,13,0.85);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 16px;
-      padding: 16px 20px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .badge-avatars {
-      display: flex;
-    }
-    .badge-avatar {
-      width: 36px; height: 36px;
-      border-radius: 50%;
-      border: 2px solid var(--dark);
-      object-fit: cover;
-      margin-left: -10px;
-    }
-    .badge-avatar:first-child { margin-left: 0; }
-
-    .badge-text { flex: 1; }
-    .badge-num {
-      font-size: 16px;
-      font-weight: 800;
-      line-height: 1;
-    }
-    .badge-sub {
-      font-size: 11px;
-      color: var(--gray);
-      margin-top: 2px;
-    }
-
-    .about-text { }
-
-    .credentials {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-top: 32px;
-    }
-
-    .cred-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      padding: 16px 18px;
-      background: var(--dark3);
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .cred-icon {
-      width: 36px; height: 36px;
-      border-radius: 10px;
-      background: rgba(232,82,122,0.12);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-
-    .cred-text {
-      font-size: 14px;
-      line-height: 1.5;
-      color: rgba(245,245,245,0.8);
-    }
-
-    .about-cta {
-      margin-top: 32px;
-    }
-
-    /* ── PROGRAMS ── */
-    #programs {
-      background: var(--dark);
-    }
-
-    .programs-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .programs-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 36px;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-
-    .tabs {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .tab {
-      padding: 9px 18px;
-      border-radius: 100px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: transparent;
-      color: var(--gray);
-      transition: all 0.2s;
-      font-family: var(--font);
-    }
-    .tab:hover { border-color: var(--pink); color: var(--pink); }
-    .tab.active {
-      background: var(--pink);
-      border-color: var(--pink);
-      color: #fff;
-    }
-
-    .programs-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
-    }
-
-    .program-card {
-      background: var(--dark3);
-      border-radius: 20px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.06);
-      transition: transform 0.2s, border-color 0.2s;
-      display: flex;
-      flex-direction: column;
-    }
-    .program-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(232,82,122,0.3);
-    }
-
-    .card-img-wrap {
-      position: relative;
-      aspect-ratio: 16/10;
-      overflow: hidden;
-    }
-
-    .card-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.4s;
-    }
-    .program-card:hover .card-img { transform: scale(1.04); }
-
-    .card-badge {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      background: var(--pink);
-      color: #fff;
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      padding: 4px 10px;
-      border-radius: 100px;
-    }
-
-    .card-body {
-      padding: 20px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .card-type {
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--pink);
-      margin-bottom: 6px;
-    }
-
-    .card-title {
-      font-size: 18px;
-      font-weight: 800;
-      margin-bottom: 10px;
-      line-height: 1.2;
-    }
-
-    .card-desc {
-      font-size: 13px;
-      color: rgba(245,245,245,0.55);
-      line-height: 1.55;
-      flex: 1;
-      margin-bottom: 20px;
-    }
-    .card-desc strong {
-      color: rgba(245,245,245,0.85);
-      font-weight: 600;
-    }
-
-    .card-btn {
-      display: block;
-      text-align: center;
-      background: rgba(232,82,122,0.1);
-      color: var(--pink);
-      border: 1px solid rgba(232,82,122,0.25);
-      border-radius: 100px;
-      padding: 12px 20px;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.2s;
-      font-family: var(--font);
-    }
-    .card-btn:hover {
-      background: var(--pink);
-      color: #fff;
-      border-color: var(--pink);
-    }
-
-    /* hidden cards */
-    .program-card[data-cat].hidden { display: none; }
-
-    /* ── FAQ ── */
-    #faq {
-      background: var(--dark2);
-    }
-
-    .faq-inner {
-      max-width: 760px;
-      margin: 0 auto;
-    }
-
-    .faq-header {
-      margin-bottom: 40px;
-    }
-
-    .faq-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .faq-item {
-      background: var(--dark3);
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.05);
-      overflow: hidden;
-    }
-
-    .faq-q {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      padding: 20px 22px;
-      background: none;
-      border: none;
-      color: var(--text);
-      font-family: var(--font);
-      font-size: 15px;
-      font-weight: 600;
-      text-align: left;
-      cursor: pointer;
-      line-height: 1.4;
-    }
-
-    .faq-icon {
-      width: 28px; height: 28px;
-      border-radius: 50%;
-      background: rgba(232,82,122,0.1);
-      border: 1px solid rgba(232,82,122,0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: transform 0.3s, background 0.2s;
-      font-size: 18px;
-      color: var(--pink);
-      line-height: 1;
-    }
-
-    .faq-item.open .faq-icon {
-      transform: rotate(45deg);
-      background: var(--pink);
-      color: #fff;
-    }
-
-    .faq-a {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.35s ease, padding 0.3s ease;
-      font-size: 14px;
-      color: rgba(245,245,245,0.6);
-      line-height: 1.65;
-      padding: 0 22px;
-    }
-
-    .faq-item.open .faq-a {
-      max-height: 400px;
-      padding: 0 22px 20px;
-    }
-
-    /* ── LEAD FORM ── */
-    #lead {
-      background: var(--dark);
-    }
-
-    .lead-inner {
-      max-width: 760px;
-      margin: 0 auto;
-      background: linear-gradient(160deg, var(--dark3) 0%, var(--dark2) 100%);
-      border: 1px solid rgba(232,82,122,0.18);
-      border-radius: 24px;
-      padding: 44px 40px;
-      text-align: center;
-    }
-
-    .lead-tag {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--pink);
-      margin-bottom: 12px;
-    }
-
-    .lead-title {
-      font-size: clamp(24px, 4.5vw, 38px);
-      font-weight: 900;
-      line-height: 1.12;
-      letter-spacing: -0.02em;
-      margin-bottom: 12px;
-    }
-
-    .lead-sub {
-      font-size: 15px;
-      color: rgba(245,245,245,0.6);
-      line-height: 1.55;
-      max-width: 440px;
-      margin: 0 auto 28px;
-    }
-
-    .lead-form {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      max-width: 420px;
-      margin: 0 auto;
-      text-align: left;
-    }
-
-    .field { display: flex; flex-direction: column; gap: 7px; }
-
-    .field label {
-      font-size: 12px;
-      font-weight: 600;
-      color: rgba(245,245,245,0.7);
-      letter-spacing: 0.02em;
-    }
-
-    .field input {
-      width: 100%;
-      min-height: 50px;
-      padding: 13px 16px;
-      background: var(--dark);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 12px;
-      color: var(--text);
-      font-family: var(--font);
-      font-size: 15px;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    .field input::placeholder { color: rgba(245,245,245,0.3); }
-    .field input:focus {
-      outline: none;
-      border-color: var(--pink);
-      box-shadow: 0 0 0 3px rgba(232,82,122,0.25);
-    }
-    .field input.invalid {
-      border-color: #ff5470;
-      box-shadow: 0 0 0 3px rgba(255,84,112,0.18);
-    }
-
-    .field-error {
-      font-size: 12px;
-      color: #ff7088;
-      min-height: 0;
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.2s;
-    }
-    .field.show-error .field-error { max-height: 24px; }
-
-    .lead-submit {
-      min-height: 52px;
-      background: var(--pink);
-      color: #fff;
-      border: none;
-      border-radius: 100px;
-      padding: 15px 32px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      font-family: var(--font);
-      transition: background 0.2s, transform 0.15s;
-      margin-top: 4px;
-    }
-    .lead-submit:hover { background: var(--pink-light); }
-    .lead-submit:active { transform: translateY(1px); }
-    .lead-submit:disabled { opacity: 0.7; cursor: default; }
-
-    .lead-consent {
-      font-size: 11px;
-      color: rgba(136,136,136,0.7);
-      line-height: 1.4;
-      text-align: center;
-      margin-top: 2px;
-    }
-
-    .lead-messengers {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      margin-top: 28px;
-    }
-
-    .msgr-btn {
-      width: 48px; height: 48px;
-      border-radius: 50%;
-      background: var(--dark);
-      border: 1px solid rgba(255,255,255,0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: rgba(245,245,245,0.75);
-      text-decoration: none;
-      font-size: 12px;
-      font-weight: 700;
-      transition: all 0.2s;
-    }
-    .msgr-btn:hover {
-      border-color: var(--pink);
-      color: var(--pink);
-      transform: translateY(-2px);
-    }
-    .msgr-btn svg { width: 22px; height: 22px; }
-
-    .lead-success {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      padding: 20px 0;
-    }
-    .lead-success.show { display: flex; }
-    .success-check {
-      width: 64px; height: 64px;
-      border-radius: 50%;
-      background: rgba(232,82,122,0.15);
-      border: 2px solid var(--pink);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 32px;
-      color: var(--pink);
-    }
-    .success-title { font-size: 22px; font-weight: 800; }
-    .success-text { font-size: 14px; color: rgba(245,245,245,0.6); max-width: 360px; text-align: center; line-height: 1.5; }
-
-    /* ── FOOTER ── */
-    footer {
-      background: var(--dark);
-      border-top: 1px solid rgba(255,255,255,0.06);
-      padding: 40px 24px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-      text-align: center;
-    }
-
-    .footer-logo {
-      font-size: 16px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    .footer-logo span { color: var(--pink); }
-
-    .footer-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-    }
-
-    .footer-links a {
-      font-size: 13px;
-      color: var(--gray);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .footer-links a:hover { color: var(--text); }
-
-    .footer-copy {
-      font-size: 12px;
-      color: rgba(136,136,136,0.5);
-    }
-
-    /* ── TABLET / STACKED HERO ── */
-    @media (max-width: 900px) {
-      #hero {
-        grid-template-columns: 1fr;
-        min-height: auto;
-        padding: 120px 24px 70px;
-      }
-      .hero-content { order: 2; max-width: 640px; }
-      .hero-figure {
-        order: 1;
-        min-height: 42vh;
-        margin-bottom: 8px;
-      }
-      .hero-photo { max-width: 320px; margin: 0 auto; }
-      .hero-ring.r1 { right: 14%; }
-    }
-
-    /* ── MOBILE ── */
-    @media (max-width: 680px) {
-      header { padding: 14px 16px; }
-
-      #hero { padding: 104px 16px 56px; }
-      .hero-content { padding: 0; }
-      .hero-stats { gap: 20px; }
-      .hero-figure { min-height: 38vh; }
-      .hero-photo { max-width: 260px; }
-      .hero-glow { width: 320px; height: 320px; }
-
-      section { padding: 60px 16px; }
-
-      .about-inner {
-        grid-template-columns: 1fr;
-        gap: 32px;
-      }
-      .about-photo { aspect-ratio: 4/3; }
-
-      .programs-header { flex-direction: column; align-items: flex-start; }
-
-      .programs-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .faq-q { font-size: 14px; padding: 16px 18px; }
-      .faq-item.open .faq-a { padding: 0 18px 16px; }
-
-      .lead-inner { padding: 32px 20px; border-radius: 20px; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
 </head>
 <body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>UsmanovaFit — онлайн-тренировки и питание с Катей Усмановой</title>
+  <meta name="description" content="Приведите тело в форму с чемпионкой Катей Усмановой: тренировки дома и в зале, питание без диет, восстановление после родов. 580 000+ участниц.">
+  <meta name="theme-color" content="#e81e5c">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="UsmanovaFit — онлайн-тренировки с Катей Усмановой">
+  <meta property="og:description" content="Похудеть, подтянуть ягодицы и живот, восстановиться после родов — без диет и голода. Подберём программу под вашу цель.">
+  <meta property="og:locale" content="ru_RU">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Crect%20width='100'%20height='100'%20rx='22'%20fill='%23e81e5c'/%3E%3Ctext%20x='50'%20y='73'%20font-family='Arial,sans-serif'%20font-size='64'%20font-weight='bold'%20fill='white'%20text-anchor='middle'%3EU%3C/text%3E%3C/svg%3E">
+  <style>
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:'Manrope',system-ui,-apple-system,sans-serif;color:#16130f;background:#fff;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+    img{display:block}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+    @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    @keyframes blob{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(14px,-18px) scale(1.08)}}
+    @keyframes gridFade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    @keyframes gridFade2{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    @keyframes popIn{0%{transform:scale(.4);opacity:0}60%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+    @keyframes shake{0%,100%{transform:translateX(0)}15%{transform:translateX(-7px)}35%{transform:translateX(6px)}55%{transform:translateX(-5px)}75%{transform:translateX(4px)}90%{transform:translateX(-2px)}}
+    .uf-shake{animation:shake .42s cubic-bezier(.36,.07,.19,.97) both}
+    @keyframes ring{0%{transform:scale(.7);opacity:.55}100%{transform:scale(1.9);opacity:0}}
+    @keyframes livePulse{0%{transform:scale(.85);opacity:1;box-shadow:0 0 0 0 rgba(34,178,108,.55)}70%{transform:scale(1);opacity:.9;box-shadow:0 0 0 7px rgba(34,178,108,0)}100%{transform:scale(.85);opacity:1;box-shadow:0 0 0 0 rgba(34,178,108,0)}}
+    @keyframes liveBump{0%{transform:translateY(0)}40%{transform:translateY(-2px)}100%{transform:translateY(0)}}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .uf-pimg{transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+    #uf-root .uf-card:hover .uf-pimg{transform:scale(1.07)}
+    @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}[data-reveal]{opacity:1!important;transform:none!important}#uf-root .uf-card:hover .uf-pimg{transform:none}}
+    .uf-creds{display:grid;gap:14px;grid-template-columns:1fr}
+    @media (min-width:560px){.uf-creds{grid-template-columns:1fr 1fr}.uf-creds>:first-child{grid-column:1 / -1}}
+    @media (min-width:900px){.uf-creds{grid-template-columns:repeat(3,1fr)}.uf-creds>:first-child{grid-column:span 2}}
+    .uf-tabs::-webkit-scrollbar{display:none}
+    @keyframes aurora{0%{background-position:50% 50%,50% 50%}100%{background-position:350% 50%,350% 50%}}
+    @keyframes beamUp{from{transform:translateX(-50%) translateY(560px);opacity:0}20%{opacity:1}80%{opacity:1}to{transform:translateX(-50%) translateY(-110%);opacity:0}}
+    @keyframes beamsFadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes cardFadeIn{from{opacity:0;transform:translateY(48px)}to{opacity:1;transform:none}}
+    @keyframes beamIntro{0%{opacity:0;transform:translateX(-3%) scale(.96)}50%{opacity:.4;transform:translateX(3%) scale(1.04)}100%{opacity:.18;transform:translateX(-3%) scale(.96)}}
+    @keyframes beamLoop{0%{opacity:.18;transform:translateX(-3%) scale(.96)}50%{opacity:.4;transform:translateX(3%) scale(1.04)}100%{opacity:.18;transform:translateX(-3%) scale(.96)}}
+    .uf-aurora{
+      position:absolute;inset:-10px -10px -120px -10px;pointer-events:none;will-change:background-position;
+      background-image:
+        repeating-linear-gradient(125deg,rgba(255,255,255,.8) 0%,rgba(255,255,255,.8) 7%,transparent 10%,transparent 12%,rgba(255,255,255,.8) 16%),
+        repeating-linear-gradient(125deg,#e81e5c 10%,#ff7ba6 15%,#ffeaf0 20%,#ffb3cd 25%,#f04e85 30%);
+      transform:rotate(-8deg) scale(1.2);
+      background-size:300% 300%,200% 200%;
+      background-position:50% 50%,50% 50%;
+      filter:blur(22px);
+      opacity:.5;
+      animation:aurora 38s linear infinite;
+      mask-image:radial-gradient(ellipse 70% 60% at 95% 0%,black 0%,transparent 70%);
+      -webkit-mask-image:radial-gradient(ellipse 70% 60% at 95% 0%,black 0%,transparent 70%);
+    }
+    #uf-root form select{-webkit-appearance:none;appearance:none}
+    @media(max-width:559px){
+      #programs .uf-pgrid{grid-template-columns:1fr 1fr !important;gap:12px !important}
+      #programs .uf-pgrid h3{font-size:15px !important}
+      #programs .uf-pgrid>div>div:last-child{padding:12px 12px 14px !important}
+    }
+    ::selection{background:#ffd0e0}
+    #uf-root a:focus-visible,#uf-root button:focus-visible{outline:2.5px solid #e81e5c;outline-offset:3px;border-radius:6px}
+    #uf-root form input:focus-visible,#uf-root form select:focus-visible{outline:none}
+    @media(max-width:559px){
+      #form .uf-namerow{flex-direction:column;gap:14px !important}
+      #form .uf-namerow label{width:100% !important}
+      #form .uf-namerow input{width:100% !important}
+    }
+  </style>
+</helmet>
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" rx="22" fill="#e81e5c"/><text x="50" y="68" font-family="Manrope,sans-serif" font-size="52" font-weight="800" fill="#fff" text-anchor="middle">U</text></svg>
+</template>
 
-<!-- HEADER -->
-<header>
-  <a class="logo" href="#">Усманова<span>Fit</span></a>
-  <button class="header-btn" onclick="document.getElementById('programs').scrollIntoView({behavior:'smooth'})">
-    Выбрать программу
-  </button>
-</header>
+<div id="uf-root" style="overflow-x:hidden">
 
-<!-- ЭКРАН 1: HERO -->
-<section id="hero">
-  <div class="hero-content">
-    <div class="hero-badge">580 000+ учениц</div>
-    <h1 class="hero-title">
-      Приведите тело<br>
-      в форму с <em>чемпионкой</em><br>
-      Катей Усмановой
-    </h1>
-    <p class="hero-sub">
-      Без диет, голода и запретов — с пользой для здоровья.
-      Похудеть, подтянуть попу и живот, набрать форму
-      в зале, восстановиться после родов.
-    </p>
-    <div class="hero-actions">
-      <a class="btn-primary" href="#programs">Выбрать программу</a>
-    </div>
-    <div class="hero-stats">
-      <div class="stat">
-        <div class="stat-num">580<span>K+</span></div>
-        <div class="stat-label">учениц по всему миру</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">10<span>+</span></div>
-        <div class="stat-label">программ под любую цель</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">4–6<span> кг</span></div>
-        <div class="stat-label">уходит в первый месяц</div>
-      </div>
-    </div>
-  </div>
+  <div data-progress aria-hidden="true" style="position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,#e81e5c,#ff7ba6);z-index:70;transition:width .12s linear;pointer-events:none"></div>
 
-  <div class="hero-figure" id="heroFigure">
-    <div class="hero-glow"></div>
-    <span class="hero-ring r1"></span>
-    <span class="hero-ring r2"></span>
-    <div class="hero-photo-wrap" id="heroPhotoWrap">
-      <div class="hero-parallax" id="heroParallax">
-        <img class="hero-photo" src="assets/kate.png" alt="Катя Усманова с гантелью" fetchpriority="high">
-      </div>
-    </div>
-  </div>
-</section>
+  <button data-totop onClick="{{ scrollTop }}" type="button" aria-label="Наверх" style="position:fixed;right:20px;bottom:20px;z-index:60;width:48px;height:48px;border-radius:14px;border:none;background:#16130f;color:#fff;font-size:21px;line-height:1;cursor:pointer;box-shadow:0 16px 34px -12px rgba(0,0,0,.45);opacity:0;transform:translateY(16px) scale(.9);pointer-events:none;transition:opacity .3s,transform .3s,background .15s" style-hover="background:#e81e5c">↑</button>
 
-<!-- ЭКРАН 2: О ТРЕНЕРЕ -->
-<section id="about">
-  <div class="about-inner">
-    <div class="about-photo-wrap">
-      <img
-        class="about-photo"
-        src="assets/c79ef9787c5e268d93a54f1e02e46ec3.png"
-        alt="Катя Усманова"
-        loading="lazy"
-      >
-      <div class="about-photo-badge">
-        <div class="badge-avatars">
-          <img class="badge-avatar" src="assets/e343f4d439f4b13c84cb913077071cd3.jpg" alt="">
-          <img class="badge-avatar" src="assets/4cf84691bdd21dd0b41c2429d33ce41f.jpg" alt="">
-          <img class="badge-avatar" src="assets/72ba9dfec18d7aa5779fe30e50e96901.jpg" alt="">
-        </div>
-        <div class="badge-text">
-          <div class="badge-num">3 696</div>
-          <div class="badge-sub">тренируются прямо сейчас</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="about-text">
-      <div class="section-tag">Ваш тренер</div>
-      <h2 class="section-title">Доверьте тело<br>чемпионке</h2>
-      <p class="section-sub">
-        С 2015 года Катя создаёт топовые тренировки для идеальных ягодиц,
-        плоского живота и стройности без жёстких диет.
-      </p>
-
-      <ul class="credentials">
-        <li class="cred-item">
-          <div class="cred-icon">🏆</div>
-          <div class="cred-text">Вице-чемпионка мира и чемпионка России по фитнес-бикини</div>
-        </li>
-        <li class="cred-item">
-          <div class="cred-icon">💪</div>
-          <div class="cred-text">Профессиональный фитнес-тренер с опытом более 15 лет</div>
-        </li>
-        <li class="cred-item">
-          <div class="cred-icon">👶</div>
-          <div class="cred-text">Мама 2-х детей — за 100 дней после родов похудела на 20 кг</div>
-        </li>
-        <li class="cred-item">
-          <div class="cred-icon">⭐</div>
-          <div class="cred-text">Автор первых в России масштабных марафонов стройности</div>
-        </li>
-        <li class="cred-item">
-          <div class="cred-icon">🥇</div>
-          <div class="cred-text">Чемпионка России и мира по жиму лёжа</div>
-        </li>
-      </ul>
-
-      <div class="about-cta">
-        <a class="btn-primary" href="#programs">Вернуть форму</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ЭКРАН 3: ПРОГРАММЫ -->
-<section id="programs">
-  <div class="programs-inner">
-    <div class="programs-header">
-      <div>
-        <div class="section-tag">Каталог</div>
-        <h2 class="section-title">Выберите<br>программу</h2>
-      </div>
-      <div class="tabs">
-        <button class="tab active" data-filter="all">Все</button>
-        <button class="tab" data-filter="home">Дома</button>
-        <button class="tab" data-filter="gym">В зале</button>
-        <button class="tab" data-filter="nutrition">Питание</button>
-        <button class="tab" data-filter="post">После родов</button>
-      </div>
-    </div>
-
-    <div class="programs-grid">
-
-      <div class="program-card" data-cat="home">
-        <div class="card-img-wrap">
-          <img class="card-img" src="assets/9993958238de93cfb42027db3748b8fe.png" alt="Метод Усмановой" loading="lazy">
-          <span class="card-badge">Флагман</span>
-        </div>
-        <div class="card-body">
-          <div class="card-type">Программа · Дома</div>
-          <div class="card-title">Метод Усмановой</div>
-          <p class="card-desc"><strong>Освоите технику и втянетесь в регулярные тренировки</strong> — без травм и через силу. Первая программа, с которой начинают все ученицы Кати.</p>
-          <a class="card-btn" href="https://usmanovafit.gymteam.ru/maysale2026_7" target="_blank">Подробнее</a>
-        </div>
-      </div>
-
-      <div class="program-card" data-cat="home">
-        <div class="card-img-wrap">
-          <img class="card-img" src="assets/b425fe3374dfff385aa5305db7156a5f.png" alt="Марафон стройности" loading="lazy">
-        </div>
-        <div class="card-body">
-          <div class="card-type">Марафон · Дома</div>
-          <div class="card-title">Марафон стройности</div>
-          <p class="card-desc"><strong>Первый видимый результат за 21 день</strong> — уходит первый жир, появляется тонус и лёгкость. Для тех, кто стартует с нуля.</p>
-          <a class="card-btn" href="https://usmanovafit.gymteam.ru/maysale2026_7" target="_blank">Подробнее</a>
-        </div>
-      </div>
-
-      <div class="program-card" data-cat="home">
-        <div class="card-img-wrap">
-          <img class="card-img" src="assets/d8acf94578d7aa9c71f7b487c818a4b4.png" alt="Упругая попа 1.0" loading="lazy">
-        </div>
-        <div class="card-body">
-          <div class="card-type">Марафон · Дома</div>
-          <div class="card-title">Упругая попа 1.0</div>
-          <p class="card-desc"><strong>Первый объём и подтянутость ягодиц</strong> — с собственным весом. Для тех, кто впервые целенаправленно работает над попой.</p>
-          <a class="card-btn" href="https://usmanovafit.gymteam.ru/maysale2026_7" target="_blank">Подробнее</a>
-        </div>
-      </div>
-
-      <div class="program-card" data-cat="home">
-        <div class="card-img-wrap">
-          <img class="card-img" src="assets/24010713a536c083b2ec7afd7c1d1a14.png" alt="Упругая попа 2.0" loading="lazy">
-        </div>
-        <div class="card-body">
-          <div class="card-type">Марафон · Дома</div>
-          <div class="card-title">Упругая попа 2.0</div>
-          <p class="card-desc"><strong>Плотные, упругие ягодицы</strong> — следующий уровень после 1.0. С резинкой и утяжелителями, для подготовленных.</p>
-          <a class="card-btn" href="https://usmanovafit.gymteam.ru/maysale2026_7" target="_blank">Подробнее</a>
-        </div>
-      </div>
-
-      <div class="program-card" data-cat="home">
-        <div class="card-img-wrap">
-          <img class="card-img" src="assets/9c599cbd2f0e39fa1bd12c09072e4db2.png" alt="Плоский живот" loading="lazy">
-        </div>
-        <div class="card-body">
-          <div class="card-type">Марафон · Дома</div>
-          <div class="card-title">Плоский живот</div>
-          <p class="card-desc"><strong>Убрать вываливающийся живот,</strong> который не уходит даже после похудения. Тренировки на глубокие мышцы пресса.</p>
-          <a class="card-btn" href="https://usmanovafit.gymteam.ru/maysale2026_7" target="_blank">Подробнее</a>
-        </div>
-      </div>
-
-      <div class="program-card" data-cat="gym">
-        <div class="card-img-wrap">
-          <img class="card-img" src="assets/8261c10bf388dcc255c1368cf0ada516.png" alt="Для зала" loading="lazy">
-        </div>
-        <div class="card-body">
-          <div class="card-type">Курс · В зале</div>
-          <div class="card-title">Для зала</div>
-          <p class="card-desc"><strong>Мышцы снова растут</strong> — когда дома прогресс уже встал. Готовая программа для зала на мышечный объём.</p>
-          <a class="card-btn" href="https://usmanovafit.gymteam.ru/maysale2026_7" target="_blank">Подробнее</a>
-        </div>
-      </div>
-
-      <div class="program-card" data-cat="nutrition">
-        <div class="card-img-wrap">
-          <img class="card-img" src="assets/468c85a2ea7c865ae30349257111fd6f.png" alt="ИИ-нутрициолог" loading="lazy">
-          <span class="card-badge">Бестселлер</span>
-        </div>
-        <div class="card-body">
-          <div class="card-type">Сервис · Питание</div>
-          <div class="card-title">ИИ-нутрициолог</div>
-          <p class="card-desc"><strong>Едите без срывов и понимаете своё тело</strong> — питание, тренировки, анализы в кармане. Подскажет, поддержит, не осудит.</p>
-          <a class="card-btn" href="https://usmanovafit.gymteam.ru/maysale2026_7" target="_blank">Подробнее</a>
-        </div>
-      </div>
-
-      <div class="program-card" data-cat="post">
-        <div class="card-img-wrap">
-          <img class="card-img" src="assets/670dcb85eab5786fd01def671ea3da4f.png" alt="Для беременных" loading="lazy">
-        </div>
-        <div class="card-body">
-          <div class="card-type">Курс · Беременность</div>
-          <div class="card-title">Для беременных</div>
-          <p class="card-desc"><strong>Лёгкие роды и тело без перегрузки</strong> — безопасные тренировки на всех триместрах. Спина, тазовое дно, подготовка к родам.</p>
-          <a class="card-btn" href="https://usmanovafit.gymteam.ru/maysale2026_7" target="_blank">Подробнее</a>
-        </div>
-      </div>
-
-      <div class="program-card" data-cat="post">
-        <div class="card-img-wrap">
-          <img class="card-img" src="assets/b88878684e2c798665d456e839aae6c7.png" alt="Восстановление после родов" loading="lazy">
-        </div>
-        <div class="card-body">
-          <div class="card-type">Курс · После родов</div>
-          <div class="card-title">Восстановление после родов</div>
-          <p class="card-desc"><strong>Вернётесь в форму после родов и кесарева</strong> — сначала диастаз, тазовое дно и осанка, потом стройность и тонус.</p>
-          <a class="card-btn" href="https://usmanovafit.gymteam.ru/maysale2026_7" target="_blank">Подробнее</a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ЭКРАН: ФОРМА -->
-<section id="lead">
-  <div class="lead-inner">
-    <div class="lead-tag">Бесплатный подбор</div>
-    <h2 class="lead-title">Не знаете, с чего начать?</h2>
-    <p class="lead-sub">Оставьте контакты — подберём программу под вашу цель и уровень. Это бесплатно и быстро.</p>
-
-    <form class="lead-form" id="leadForm" novalidate>
-      <div class="field" id="field-name">
-        <label for="lead-name">Ваше имя</label>
-        <input type="text" id="lead-name" name="name" placeholder="Катя" autocomplete="name" required>
-        <span class="field-error">Введите имя — минимум 2 буквы</span>
-      </div>
-      <div class="field" id="field-phone">
-        <label for="lead-phone">Телефон</label>
-        <input type="tel" id="lead-phone" name="phone" placeholder="+7 900 000-00-00" autocomplete="tel" inputmode="tel" required>
-        <span class="field-error">Введите корректный телефон</span>
-      </div>
-      <button type="submit" class="lead-submit" id="leadSubmit">Подобрать программу</button>
-      <p class="lead-consent">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных</p>
-    </form>
-
-    <div class="lead-success" id="leadSuccess">
-      <div class="success-check">✓</div>
-      <div class="success-title">Заявка принята!</div>
-      <p class="success-text">Спасибо, <span id="successName">Катя</span>! Мы свяжемся с вами в ближайшее время и подберём программу под вашу цель.</p>
-    </div>
-
-    <div class="lead-messengers">
-      <a class="msgr-btn" href="https://t.me/UsmanovaSport_bot" target="_blank" rel="noopener" aria-label="Telegram" title="Telegram">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+  <header style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,.9);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid #efe9e5">
+    <div style="max-width:1180px;margin:0 auto;padding:13px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+      <a href="#top" style="display:flex;align-items:center;gap:9px;text-decoration:none;color:#16130f">
+        <span style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:9px;background:#e81e5c;color:#fff;font-weight:800;font-size:18px">U</span>
+        <span style="font-weight:800;font-size:18px;letter-spacing:-.02em">USMANOVA<span style="color:#e81e5c">FIT</span></span>
       </a>
-      <a class="msgr-btn" href="https://vk.ru/usmanovateam" target="_blank" rel="noopener" aria-label="VK" title="VK">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.79 16.4c-5.07 0-7.96-3.48-8.08-9.26h2.54c.08 4.25 1.95 6.04 3.43 6.41V7.14h2.39v3.66c1.46-.16 3-1.82 3.51-3.66h2.39c-.39 2.27-2.05 3.93-3.23 4.61 1.18.55 3.07 2 3.79 4.65h-2.63c-.56-1.75-1.97-3.1-3.83-3.29v3.29h-.68z"/></svg>
-      </a>
-      <a class="msgr-btn" href="https://max.ru/id7734434533_1_bot" target="_blank" rel="noopener" aria-label="MAX" title="MAX">MAX</a>
+      <a href="#form" style="display:inline-flex;align-items:center;justify-content:center;background:#e81e5c;color:#fff;font-weight:700;font-size:14px;padding:11px 20px;border-radius:999px;text-decoration:none;transition:background .15s" style-hover="background:#c4174c">Подобрать программу</a>
     </div>
-  </div>
-</section>
+  </header>
 
-<!-- ЭКРАН 4: FAQ -->
-<section id="faq">
-  <div class="faq-inner">
-    <div class="faq-header">
-      <div class="section-tag">Вопросы</div>
-      <h2 class="section-title">Отвечаем<br>на вопросы</h2>
-    </div>
-
-    <div class="faq-list">
-      <div class="faq-item">
-        <button class="faq-q">
-          Подойдёт ли мне программа, если я никогда не тренировалась?
-          <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-a">Да. На витрине есть программы для старта с нуля — например, Метод Усмановой и Марафон стройности. Катя показывает и объясняет каждое движение, вы просто повторяете. Если не знаете, с чего начать, напишите нам — поможем выбрать программу под вашу цель и уровень.</div>
+  <section id="top" style="position:relative;background:linear-gradient(180deg,#fdf3f0,#fff);scroll-margin-top:70px">
+    <div aria-hidden="true" class="uf-aurora"></div>
+    <div style="max-width:1180px;margin:0 auto;padding:clamp(36px,6vw,72px) 22px;display:flex;flex-wrap:wrap;gap:clamp(28px,4vw,56px);align-items:center">
+      <div style="flex:1 1 380px;min-width:300px;animation:fadeUp .6s ease both">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px">
+          <span style="display:inline-flex;align-items:center;gap:9px;background:#fff;color:#16130f;font-weight:700;font-size:13px;letter-spacing:.01em;padding:7px 14px 7px 12px;border-radius:999px;border:1.5px solid #e6ddd8;box-shadow:0 6px 18px -10px rgba(0,0,0,.25)">
+            <span aria-hidden="true" style="position:relative;width:9px;height:9px;flex:none;display:inline-flex;align-items:center;justify-content:center">
+              <span style="position:absolute;width:9px;height:9px;border-radius:50%;background:#22b26c;animation:livePulse 1.8s ease-out infinite"></span>
+            </span>
+            <span style="display:inline-flex;align-items:baseline;gap:5px"><span data-live-count aria-live="polite" aria-atomic="true" style="font-variant-numeric:tabular-nums;font-weight:800;display:inline-block">3 696</span><span style="color:#6f675f;font-weight:600">тренируются&nbsp;сейчас</span></span>
+          </span>
+        </div>
+        <h1 style="font-size:clamp(33px,5.2vw,58px);line-height:1.04;letter-spacing:-.03em;font-weight:800;margin:18px 0 0">Приведите тело в&nbsp;форму с&nbsp;чемпионкой <span style="color:#e81e5c">Катей&nbsp;Усмановой</span></h1>
+        <p style="font-size:clamp(15px,1.6vw,18px);line-height:1.55;color:#564f49;margin:20px 0 28px;max-width:520px">Без диет, голода и запретов — с пользой для здоровья. Похудеть, подтянуть попу и живот, набрать форму в зале, восстановиться после родов.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px">
+          <a href="#form" style="display:inline-flex;align-items:center;justify-content:center;gap:9px;background:#e81e5c;color:#fff;font-weight:700;font-size:17px;padding:17px 32px;border-radius:999px;text-decoration:none;box-shadow:0 14px 34px -10px rgba(232,30,92,.55);transition:background .15s,transform .15s" style-hover="background:#c4174c;transform:translateY(-2px)" style-active="transform:translateY(0) scale(.97)">Подобрать программу</a>
+          <a href="#programs" style="display:inline-flex;align-items:center;justify-content:center;background:#fff;color:#16130f;font-weight:700;font-size:17px;padding:17px 30px;border-radius:999px;text-decoration:none;border:1.5px solid #e6ddd8;transition:border-color .15s" style-hover="border-color:#16130f">Смотреть программы</a>
+        </div>
+        <p style="margin:18px 0 0;font-size:12px;color:#b3aca6;display:flex;align-items:center;gap:6px;font-weight:500">Если сайт работает некорректно — отключите&nbsp;VPN</p>
       </div>
-      <div class="faq-item">
-        <button class="faq-q">
-          Сколько времени в день нужно на тренировки?
-          <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-a">От 20 до 45 минут. Заниматься можно в любое удобное время — расписания нет, уроки открыты, включаете когда вам удобно днём или вечером.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">
-          Можно ли тренироваться дома? Нужно ли оборудование?
-          <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-a">Да, все программы рассчитаны на занятия дома. Для большинства достаточно коврика и собственного веса. Для некоторых программ пригодится минимальный инвентарь — фитнес-резинка, лёгкие гантели или утяжелители. Его можно заменить подручными средствами, например бутылками с водой.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">
-          Можно ли оплатить в рассрочку?
-          <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-a">Да, рассрочка доступна. Условия указаны при оформлении заказа.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">
-          Я живу не в России. Смогу заниматься?
-          <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-a">Да. Тренировки доступны в любой точке мира — нужен только смартфон, планшет или компьютер с интернетом.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q">
-          Как я получу доступ после оплаты?
-          <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-a">Доступ к программам открывается в личном кабинете сразу после оплаты. Авторизация — по номеру телефона, который вы указали при оформлении заказа.</div>
+      <div style="flex:1 1 340px;min-width:300px;position:relative;animation:fadeUp .7s ease both">
+        <div data-fx="blob" aria-hidden="true" style="position:absolute;width:62%;height:62%;right:-8%;top:-9%;border-radius:50%;background:radial-gradient(circle,#ffb3cd,transparent 70%);filter:blur(18px);opacity:.6;animation:blob 9s ease-in-out infinite;pointer-events:none;z-index:0"></div>
+        <div data-fx="blob" aria-hidden="true" style="position:absolute;width:46%;height:46%;left:-10%;bottom:4%;border-radius:50%;background:radial-gradient(circle,#ffd0a8,transparent 70%);filter:blur(20px);opacity:.5;animation:blob 11s ease-in-out infinite reverse;pointer-events:none;z-index:0"></div>
+        <div style="position:relative;z-index:1;aspect-ratio:4/5;border-radius:26px;overflow:hidden;background:linear-gradient(135deg,#ffd9e6,#ffeaf0);box-shadow:0 34px 80px -34px rgba(232,30,92,.5)">
+          <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:13px;color:#d99ab1">фото · Катя Усманова</span>
+          <img src="https://fs-thb02.getcourse.ru/fileservice/file/thumbnail/h/8d7e3aa384b597937b9504925ead6325.png/s/s1200x/a/934144/sc/68" onerror="this.style.display='none'" alt="Катя Усманова" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" />
+        </div>
+        <div data-fx="float" style="position:absolute;z-index:2;left:-6px;bottom:20px;background:#fff;border-radius:18px;padding:14px 18px;box-shadow:0 20px 44px -18px rgba(0,0,0,.28);display:flex;align-items:center;gap:13px;animation:floatY 5s ease-in-out infinite">
+          <span style="flex:none;width:42px;height:42px;border-radius:12px;background:#ffe7ef;color:#e81e5c;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800">★</span>
+          <span><span data-count="580000" data-suffix="+" style="display:block;font-weight:800;font-size:20px;line-height:1">0</span><span style="display:block;font-size:13px;color:#6f6862;margin-top:2px">участниц уже с Катей</span></span>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-logo">Усманова<span>Fit</span></div>
-  <div class="footer-links">
-    <a href="https://usmanovafit.gymteam.ru/cms/system/contact" target="_blank">Служба заботы</a>
-    <a href="https://usmanovafit.gymteam.ru/oferta_fitnes" target="_blank">Оферта</a>
-    <a href="https://usmanovafit.gymteam.ru/protection_fitnes" target="_blank">Политика конфиденциальности</a>
-    <a href="https://usmanovafit.gymteam.ru/personaldata" target="_blank">Согласие на обработку ПД</a>
-  </div>
-  <div class="footer-copy">© ООО «Онлайн Фитнес», 2020–2026 · ИНН 7734434533</div>
-</footer>
+  <section data-late-trigger style="max-width:1180px;margin:0 auto;padding:clamp(46px,7vw,86px) 22px">
+    <h2 data-reveal style="opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1);font-size:clamp(26px,3.6vw,40px);line-height:1.1;letter-spacing:-.02em;font-weight:800;margin:0;max-width:760px">Доверьте своё тело чемпионке фитнес-бикини и тренеру</h2>
+    <p data-reveal style="opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1);font-size:clamp(15px,1.6vw,17px);line-height:1.55;color:#6f6862;margin:16px 0 0;max-width:640px">С 2015 года Катя создаёт топовые тренировки для идеальных ягодиц, плоского живота и стройности — без жёстких диет.</p>
+    <div class="uf-creds" style="margin-top:30px">
+      <div data-reveal style="opacity:0;transform:translateY(26px);transition:opacity .6s cubic-bezier(.2,.7,.2,1),transform .6s cubic-bezier(.2,.7,.2,1);position:relative;overflow:hidden;background:#16130f;border:1px solid #16130f;border-radius:16px;padding:22px 24px;display:flex;gap:16px;align-items:center">
+        <span aria-hidden="true" style="position:absolute;right:-50px;top:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(232,30,92,.5),transparent 70%);pointer-events:none"></span>
+        <span style="position:absolute;top:14px;right:16px;z-index:2;font-size:11px;font-weight:700;letter-spacing:.08em;color:#ff9bc0;background:rgba(232,30,92,.18);padding:5px 11px;border-radius:999px">С 2015</span>
+        <span style="flex:none;width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,#ff4d8b,#e81e5c);color:#fff;display:flex;align-items:center;justify-content:center;font-size:23px;box-shadow:0 8px 22px -6px rgba(232,30,92,.65);position:relative;z-index:1">★</span>
+        <span style="position:relative;z-index:1;display:flex;flex-direction:column;gap:4px">
+          <span style="font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:#ff9bc0">Главный титул</span>
+          <span style="font-size:clamp(15px,1.7vw,18px);line-height:1.3;font-weight:700;color:#fff">Вице-чемпионка мира и чемпионка России по фитнес-бикини</span>
+        </span>
+      </div>
+      <div data-reveal style="opacity:0;transform:translateY(26px);transition:opacity .6s cubic-bezier(.2,.7,.2,1),transform .6s cubic-bezier(.2,.7,.2,1);background:#faf7f5;border:1px solid #f0e9e4;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:6px;justify-content:center">
+        <span style="font-size:clamp(32px,4vw,42px);font-weight:800;color:#e81e5c;line-height:.95;letter-spacing:-.03em"><span data-cred-count="15">0</span><span style="font-size:.55em;font-weight:700;vertical-align:top;margin-left:1px">+</span></span>
+        <span style="font-size:14.5px;line-height:1.4;font-weight:600;color:#16130f">лет профессионального опыта тренером</span>
+      </div>
+      <div data-reveal style="opacity:0;transform:translateY(26px);transition:opacity .6s cubic-bezier(.2,.7,.2,1),transform .6s cubic-bezier(.2,.7,.2,1);background:#faf7f5;border:1px solid #f0e9e4;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:6px;justify-content:center">
+        <span style="font-size:clamp(32px,4vw,42px);font-weight:800;color:#e81e5c;line-height:.95;letter-spacing:-.03em"><span data-cred-count="-20">0</span><span style="font-size:.5em;font-weight:700;margin-left:3px">кг</span></span>
+        <span style="font-size:14.5px;line-height:1.4;font-weight:600;color:#16130f">за 100 дней после первых родов · мама двоих детей</span>
+      </div>
+      <div data-reveal style="opacity:0;transform:translateY(26px);transition:opacity .6s cubic-bezier(.2,.7,.2,1),transform .6s cubic-bezier(.2,.7,.2,1);background:#faf7f5;border:1px solid #f0e9e4;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:6px;justify-content:center">
+        <span style="font-size:clamp(32px,4vw,42px);font-weight:800;color:#e81e5c;line-height:.95;letter-spacing:-.03em">№<span data-cred-count="1">0</span></span>
+        <span style="font-size:14.5px;line-height:1.4;font-weight:600;color:#16130f">автор первых в России масштабных марафонов стройности</span>
+      </div>
+      <div data-reveal style="opacity:0;transform:translateY(26px);transition:opacity .6s cubic-bezier(.2,.7,.2,1),transform .6s cubic-bezier(.2,.7,.2,1);background:#faf7f5;border:1px solid #f0e9e4;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:6px;justify-content:center">
+        <span style="font-size:clamp(32px,4vw,42px);font-weight:800;color:#e81e5c;line-height:.95;letter-spacing:-.03em"><span data-cred-count="2">0</span>×</span>
+        <span style="font-size:14.5px;line-height:1.4;font-weight:600;color:#16130f">чемпионка России и мира по жиму лёжа</span>
+      </div>
+    </div>
+  </section>
 
-<script>
-  // Tabs filter
-  const tabs = document.querySelectorAll('.tab');
-  const cards = document.querySelectorAll('.program-card[data-cat]');
+  <section id="programs" data-late-trigger style="background:#faf7f5;scroll-margin-top:70px">
+    <div style="max-width:1180px;margin:0 auto;padding:clamp(46px,7vw,86px) 22px">
+      <h2 data-reveal style="opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1);font-size:clamp(26px,3.6vw,40px);line-height:1.1;letter-spacing:-.02em;font-weight:800;margin:0">Программы под вашу цель</h2>
+      <p data-reveal style="opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1);font-size:clamp(15px,1.6vw,17px);line-height:1.55;color:#6f6862;margin:16px 0 0;max-width:600px">Тренировки дома и в зале, питание, восстановление после родов — выберите направление.</p>
+      <div data-reveal class="uf-tabs" style="opacity:0;transform:translateY(20px);transition:opacity .6s cubic-bezier(.2,.7,.2,1),transform .6s cubic-bezier(.2,.7,.2,1);display:flex;gap:10px;flex-wrap:nowrap;overflow-x:auto;margin:28px 0 30px;padding-bottom:4px;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none">
+        <sc-for list="{{ tabs }}" as="tab" hint-placeholder-count="5">
+          <button onClick="{{ tab.onClick }}" style="{{ tab.style }}" style-active="transform:scale(.94)">{{ tab.name }}</button>
+        </sc-for>
+      </div>
+      <div class="uf-pgrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;animation:{{ gridAnim }}">
+        <sc-for list="{{ visible }}" as="p" hint-placeholder-count="6">
+          <div class="uf-card" data-vid="{{ p.vidSrc }}" style="background:#fff;border-radius:20px;overflow:hidden;display:flex;flex-direction:column;will-change:transform;transition:transform .18s,box-shadow .18s;opacity:0" style-hover="transform:translateY(-4px);box-shadow:0 22px 46px -24px rgba(0,0,0,.3)">
+            <div data-imgwrap style="position:relative;aspect-ratio:3/4;overflow:hidden;background:linear-gradient(135deg,#fbe7ee,#f3edf0);display:flex;align-items:center;justify-content:center">
+              <sc-if value="{{ p.vidSrc }}" hint-placeholder-val="">
+                <span aria-hidden="true" style="position:absolute;bottom:12px;right:12px;z-index:4;width:32px;height:32px;border-radius:50%;background:rgba(22,19,15,.55);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;transition:opacity .2s;pointer-events:none">▶</span>
+              </sc-if>
+              <span style="font-family:monospace;font-size:12px;color:#cba6b6;padding:0 14px;text-align:center">{{ p.title }}</span>
+              <sc-if value="{{ p.imgEl }}" hint-placeholder-val="">
+                {{ p.imgEl }}
+              </sc-if>
+              <sc-if value="{{ p.badge }}" hint-placeholder-val="{{ true }}">
+                <span style="position:absolute;top:12px;left:12px;background:#e81e5c;color:#fff;font-size:11px;font-weight:800;letter-spacing:.07em;padding:6px 11px;border-radius:999px">{{ p.badge }}</span>
+              </sc-if>
+            </div>
+            <div style="padding:18px 18px 20px;display:flex;flex-direction:column;gap:8px;flex:1">
+              <span style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#e81e5c">{{ p.kind }}</span>
+              <h3 style="margin:0;font-size:19px;font-weight:800;letter-spacing:-.01em">{{ p.title }}</h3>
+              <p style="margin:0;font-size:14px;line-height:1.5;color:#6f6862;flex:1">{{ p.desc }}</p>
+              <a href="{{ p.href }}" target="_blank" rel="noopener" style="margin-top:6px;display:inline-flex;align-items:center;gap:7px;font-weight:700;font-size:15px;color:#16130f;text-decoration:none;transition:gap .15s,color .15s" style-hover="gap:11px;color:#e81e5c">Подробнее →</a>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
 
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      const filter = tab.dataset.filter;
-      cards.forEach(card => {
-        if (filter === 'all' || card.dataset.cat === filter) {
-          card.classList.remove('hidden');
-        } else {
-          card.classList.add('hidden');
-        }
+  <section id="form" style="position:relative;overflow:hidden;background:#16130f;scroll-margin-top:70px">
+    {{ beamEffect }}
+    <div style="position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:clamp(46px,7vw,86px) 22px;display:flex;flex-wrap:wrap;gap:clamp(28px,4vw,56px);align-items:center">
+      <div data-reveal style="opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1);flex:1 1 320px;min-width:280px;color:#fff">
+        <span style="display:inline-block;background:rgba(232,30,92,.18);color:#ff7ba6;font-weight:700;font-size:13px;letter-spacing:.03em;padding:7px 14px;border-radius:999px">Бесплатно и быстро</span>
+        <h2 style="font-size:clamp(27px,3.6vw,42px);line-height:1.08;letter-spacing:-.02em;font-weight:800;margin:18px 0 0">Не знаете, с чего начать?</h2>
+        <p style="font-size:clamp(15px,1.7vw,18px);line-height:1.55;color:#bdb6b0;margin:18px 0 0;max-width:440px">Оставьте заявку — подберём программу под вашу цель и уровень. Ответим в течение 15 минут.</p>
+        <div style="display:flex;gap:24px;margin-top:30px;flex-wrap:wrap">
+          <div><div data-count="580000" data-suffix="+" style="font-size:28px;font-weight:800;color:#fff">0</div><div style="font-size:13px;color:#9b938d;margin-top:2px">участниц</div></div>
+          <div><div style="font-size:28px;font-weight:800;color:#fff">6-й&nbsp;день</div><div style="font-size:13px;color:#9b938d;margin-top:2px">первый результат</div></div>
+          <div><div style="font-size:28px;font-weight:800;color:#fff">4–6&nbsp;кг</div><div style="font-size:13px;color:#9b938d;margin-top:2px">в среднем за месяц</div></div>
+        </div>
+      </div>
+
+      <div data-reveal style="opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1);flex:1 1 360px;min-width:290px;perspective:1200px">
+        <div data-card-inner style="{{ cardInnerStyle }}">
+          <form data-card-front onSubmit="{{ submit }}" style="background:#fff;border-radius:22px;padding:clamp(22px,3vw,30px);display:flex;flex-direction:column;gap:16px;grid-area:1/1;backface-visibility:hidden">
+            <div style="font-weight:800;font-size:20px;letter-spacing:-.01em">Подобрать программу</div>
+            <div class="uf-namerow" style="display:flex;gap:12px;align-items:flex-start">
+              <label style="display:flex;flex-direction:column;gap:7px;flex:1;min-width:0">
+                <span style="font-size:13px;font-weight:600;color:#564f49">Ваше имя</span>
+                <div style="position:relative;display:flex">
+                  <input value="{{ name }}" onChange="{{ onName }}" type="text" placeholder="Например, Анна" class="{{ nameShake }}" style="flex:1;min-width:0;font-family:inherit;font-size:16px;padding:14px 42px 14px 15px;border-radius:12px;border:{{ nameBorder }};outline:none;transition:border-color .15s" style-focus="border-color:#e81e5c" />
+                  <sc-if value="{{ nameValid }}" hint-placeholder-val="">
+                    <span aria-hidden="true" style="position:absolute;right:13px;top:0;bottom:0;margin:auto;width:22px;height:22px;border-radius:50%;background:#e9f9ef;color:#1f9d57;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;animation:popIn .35s cubic-bezier(.2,.8,.3,1.4) both">✓</span>
+                  </sc-if>
+                </div>
+                <sc-if value="{{ nameErr }}" hint-placeholder-val="">
+                  <span role="alert" style="font-size:12px;font-weight:600;color:#e81e5c;animation:fadeUp .2s ease both">{{ nameErr }}</span>
+                </sc-if>
+              </label>
+              <label style="display:flex;flex-direction:column;gap:7px;flex:none">
+                <span style="font-size:13px;font-weight:600;color:#564f49">Телефон</span>
+                <div style="position:relative;display:flex">
+                  <input value="{{ phone }}" onChange="{{ onPhone }}" type="tel" inputmode="tel" placeholder="+7 (___) ___-__-__" class="{{ phoneShake }}" style="width:206px;font-family:inherit;font-size:16px;padding:14px 42px 14px 15px;border-radius:12px;border:{{ phoneBorder }};outline:none;transition:border-color .15s" style-focus="border-color:#e81e5c" />
+                  <sc-if value="{{ phoneValid }}" hint-placeholder-val="">
+                    <span aria-hidden="true" style="position:absolute;right:13px;top:0;bottom:0;margin:auto;width:22px;height:22px;border-radius:50%;background:#e9f9ef;color:#1f9d57;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;animation:popIn .35s cubic-bezier(.2,.8,.3,1.4) both">✓</span>
+                  </sc-if>
+                </div>
+                <sc-if value="{{ phoneErr }}" hint-placeholder-val="">
+                  <span role="alert" style="font-size:12px;font-weight:600;color:#e81e5c;animation:fadeUp .2s ease both">{{ phoneErr }}</span>
+                </sc-if>
+              </label>
+            </div>
+            <label class="{{ goalShake }}" style="display:flex;flex-direction:column;gap:7px">
+              <span style="font-size:13px;font-weight:600;color:#564f49">Ваша цель</span>
+              <select value="{{ goal }}" onChange="{{ onGoal }}" style="font-family:inherit;font-size:16px;padding:14px 44px 14px 15px;border-radius:12px;border:{{ goalBorder }};outline:none;background:#fff url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22none%22%3E%3Cpath%20d%3D%22M3%206l5%205%205-5%22%20stroke%3D%22%2316130f%22%20stroke-width%3D%221.75%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E') no-repeat right 14px center;width:100%;cursor:pointer;transition:border-color .15s" style-focus="border-color:#e81e5c">
+                <option value="">Выберите цель</option>
+                <sc-for list="{{ goals }}" as="g" hint-placeholder-count="7">
+                  <option value="{{ g }}">{{ g }}</option>
+                </sc-for>
+              </select>
+              <sc-if value="{{ goalErr }}" hint-placeholder-val="">
+                <span role="alert" style="font-size:12px;font-weight:600;color:#e81e5c;animation:fadeUp .2s ease both">{{ goalErr }}</span>
+              </sc-if>
+            </label>
+            <label class="{{ consentShake }}" style="display:flex;gap:10px;align-items:center;cursor:pointer">
+              <input checked="{{ consent }}" onChange="{{ onConsent }}" type="checkbox" style="width:18px;height:18px;accent-color:#e81e5c;cursor:pointer;flex:none;outline:{{ consentOutline }};border-radius:3px" />
+              <span style="font-size:12.5px;line-height:1.45;color:{{ consentTextColor }}">Согласна на обработку персональных данных и условия оферты</span>
+            </label>
+            <button type="submit" disabled="{{ submitting }}" style="{{ submitBtnStyle }}" style-hover="background:#c4174c" style-active="transform:scale(.98)">
+              <sc-if value="{{ submitting }}" hint-placeholder-val="">
+                <span style="display:inline-flex;align-items:center;justify-content:center;gap:10px"><span aria-hidden="true" style="width:17px;height:17px;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;display:inline-block;animation:spin .7s linear infinite"></span>Подбираем…</span>
+              </sc-if>
+              <sc-if value="{{ notSubmitting }}" hint-placeholder-val="{{ true }}">Подобрать программу</sc-if>
+            </button>
+          </form>
+          <div data-card-back style="background:#fff;border-radius:22px;padding:clamp(30px,4vw,44px);text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;grid-area:1/1;backface-visibility:hidden;transform:rotateY(180deg)">
+            <div style="position:relative;width:64px;height:64px"><span data-ring-anim aria-hidden="true" style="position:absolute;inset:0;border-radius:50%;background:#1f9d57"></span><span data-check-anim style="position:relative;width:64px;height:64px;border-radius:50%;background:#e9f9ef;color:#1f9d57;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:800">✓</span></div>
+            <div style="font-weight:800;font-size:23px;letter-spacing:-.01em">Заявка принята!</div>
+            <p style="margin:0;font-size:15px;line-height:1.55;color:#6f6862;max-width:320px">Спасибо! Мы свяжемся с вами в течение 15 минут и подберём программу под вашу цель.</p>
+            <button onClick="{{ reset }}" type="button" style="margin-top:6px;background:#fff;color:#16130f;font-family:inherit;font-weight:700;font-size:15px;padding:13px 26px;border-radius:999px;border:1.5px solid #e6ddd8;cursor:pointer;transition:border-color .15s" style-hover="border-color:#16130f">Отправить ещё одну</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="max-width:820px;margin:0 auto;padding:clamp(46px,7vw,86px) 22px">
+    <h2 data-reveal style="opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1);font-size:clamp(26px,3.6vw,40px);line-height:1.1;letter-spacing:-.02em;font-weight:800;margin:0 0 28px;text-align:center">Отвечаем на вопросы</h2>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <sc-for list="{{ faqList }}" as="f" hint-placeholder-count="7">
+        <div data-reveal style="opacity:0;transform:translateY(20px);transition:opacity .55s cubic-bezier(.2,.7,.2,1),transform .55s cubic-bezier(.2,.7,.2,1);background:#faf7f5;border:1px solid #f0e9e4;border-radius:16px;overflow:hidden">
+          <button onClick="{{ f.onClick }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;text-align:left;background:none;border:none;cursor:pointer;font-family:inherit;padding:19px 20px;font-size:clamp(15px,1.7vw,17px);font-weight:700;color:#16130f">
+            <span>{{ f.q }}</span>
+            <span style="{{ f.iconStyle }}"><span style="width:26px;height:26px;border-radius:8px;background:#fff;border:1px solid #ece4df;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#e81e5c">+</span></span>
+          </button>
+          <sc-if value="{{ f.open }}" hint-placeholder-val="">
+            <div style="padding:0 20px 20px;font-size:14.5px;line-height:1.6;color:#564f49;animation:fadeUp .25s ease both">{{ f.a }}</div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <footer style="background:#16130f;color:#bdb6b0">
+    <div style="max-width:1180px;margin:0 auto;padding:clamp(40px,5vw,64px) 22px 36px;display:flex;flex-wrap:wrap;gap:32px;justify-content:space-between">
+      <div style="flex:1 1 300px;min-width:260px">
+        <div style="display:flex;align-items:center;gap:9px;margin-bottom:14px">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:9px;background:#e81e5c;color:#fff;font-weight:800;font-size:18px">U</span>
+          <span style="font-weight:800;font-size:18px;color:#fff;letter-spacing:-.02em">USMANOVA<span style="color:#e81e5c">FIT</span></span>
+        </div>
+        <p style="margin:0;font-size:13px;line-height:1.6">© ООО «Онлайн Фитнес», 2020—2026<br/>ИНН 7734434533 · ОГРН 1207700175209<br/>г. Москва, ул. Щукинская, д. 2</p>
+      </div>
+      <div style="flex:0 1 auto;display:flex;flex-direction:column;gap:10px">
+        <a href="https://usmanovafit.gymteam.ru/oferta_fitnes" target="_blank" rel="noopener" style="color:#bdb6b0;font-size:14px;text-decoration:none;transition:color .15s" style-hover="color:#fff">Оферта</a>
+        <a href="https://usmanovafit.gymteam.ru/protection_fitnes" target="_blank" rel="noopener" style="color:#bdb6b0;font-size:14px;text-decoration:none;transition:color .15s" style-hover="color:#fff">Политика конфиденциальности</a>
+        <a href="https://usmanovafit.gymteam.ru/cms/system/contact" target="_blank" rel="noopener" style="color:#bdb6b0;font-size:14px;text-decoration:none;transition:color .15s" style-hover="color:#fff">Служба заботы</a>
+      </div>
+      <div style="flex:0 1 auto;display:flex;flex-direction:column;gap:12px">
+        <span style="font-size:13px;color:#9b938d">Мы на связи</span>
+        <div style="display:flex;gap:10px">
+          <a href="https://t.me/UsmanovaSport_bot" target="_blank" rel="noopener" style="width:42px;height:42px;border-radius:11px;background:#241f1b;display:flex;align-items:center;justify-content:center;color:#fff;text-decoration:none;font-weight:700;font-size:13px;transition:background .15s" style-hover="background:#e81e5c">TG</a>
+          <a href="https://vk.ru/usmanovateam" target="_blank" rel="noopener" style="width:42px;height:42px;border-radius:11px;background:#241f1b;display:flex;align-items:center;justify-content:center;color:#fff;text-decoration:none;font-weight:700;font-size:13px;transition:background .15s" style-hover="background:#e81e5c">VK</a>
+          <a href="https://max.ru/id7734434533_1_bot" target="_blank" rel="noopener" style="width:42px;height:42px;border-radius:11px;background:#241f1b;display:flex;align-items:center;justify-content:center;color:#fff;text-decoration:none;font-weight:700;font-size:12px;transition:background .15s" style-hover="background:#e81e5c">MAX</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;headingStyle&quot;: {
+    &quot;editor&quot;: &quot;enum&quot;,
+    &quot;options&quot;: [&quot;Современный&quot;, &quot;Журнальный&quot;, &quot;Энергичный&quot;],
+    &quot;default&quot;: &quot;Современный&quot;,
+    &quot;tsType&quot;: &quot;'Современный'|'Журнальный'|'Энергичный'&quot;
+  },
+  &quot;motion&quot;: {
+    &quot;editor&quot;: &quot;enum&quot;,
+    &quot;options&quot;: [&quot;Бодрое&quot;, &quot;Спокойное&quot;, &quot;Выключить&quot;],
+    &quot;default&quot;: &quot;Бодрое&quot;,
+    &quot;tsType&quot;: &quot;'Бодрое'|'Спокойное'|'Выключить'&quot;
+  },
+  &quot;cornerStyle&quot;: {
+    &quot;editor&quot;: &quot;enum&quot;,
+    &quot;options&quot;: [&quot;Скруглённые&quot;, &quot;Строгие&quot;],
+    &quot;default&quot;: &quot;Скруглённые&quot;,
+    &quot;tsType&quot;: &quot;'Скруглённые'|'Строгие'&quot;
+  }
+}">
+class Component extends DCLogic {
+  state = { cat:'home', name:'', phone:'', goal:'', consent:false, submitted:false, submitting:false, flipped:false, beamsActive:false, errs:{}, faq:0, gridTick:0, shakeTick:0 };
+
+  cats = [
+    {id:'home',name:'Дома'},
+    {id:'gym',name:'В зале'},
+    {id:'preg',name:'Беременность и роды'},
+    {id:'food',name:'Питание'},
+    {id:'self',name:'Любовь к себе'},
+  ];
+
+  programs = [
+    {cat:'home',kind:'Программа',badge:'ФЛАГМАН',title:'Метод Усмановой',desc:'Освоите технику и втянетесь в регулярные тренировки — без травм и через силу. Первая программа, с которой начинают все ученицы Кати.',img:'9993958238de93cfb42027db3748b8fe.png/s/s600x/a/934144/sc/129',vid:'uploads/hf_20260622_142539_69ba371b-03d3-4674-a799-d7e1a17c1da2.webm'},
+    {cat:'home',kind:'Марафон',badge:'',title:'Марафон стройности',desc:'Первый видимый результат за 21 день — уходит первый жир, появляется тонус и лёгкость. Для тех, кто стартует с нуля.',img:'b425fe3374dfff385aa5305db7156a5f.png/s/s600x/a/934144/sc/243',vid:'uploads/hf_20260622_145815_836353a2-a3bc-450e-ae18-0e7abd4712be_3.webm'},
+    {cat:'home',kind:'Марафон',badge:'',title:'Упругая попа 1.0',desc:'Первый объём и подтянутость ягодиц — с собственным весом. Для тех, кто впервые целенаправленно работает над попой.',img:'d8acf94578d7aa9c71f7b487c818a4b4.png/s/s600x/a/934144/sc/265',vid:'uploads/Упругая попа 1-0_1.webm'},
+    {cat:'home',kind:'Марафон',badge:'',title:'Упругая попа 2.0',desc:'Плотные, упругие ягодицы — следующий уровень после 1.0. С резинкой и утяжелителями, для подготовленных.',img:'24010713a536c083b2ec7afd7c1d1a14.png/s/s600x/a/934144/sc/115',vid:'uploads/Упругая попа 2-0_1.webm'},
+    {cat:'home',kind:'Марафон',badge:'',title:'Плоский живот',desc:'Убрать вываливающийся живот, который не уходит даже после похудения. Тренировки на глубокие мышцы пресса.',img:'9c599cbd2f0e39fa1bd12c09072e4db2.png/s/s600x/a/934144/sc/284',vid:'uploads/Plate.webm'},
+    {cat:'home',kind:'Курс',badge:'',title:'Жиросжигающий',desc:'Сжечь жир и проявить рельеф за 6 недель. Для тех, кто уже тренировался: с гантелями, по схеме интервальных нагрузок.',img:'4bbdff61ee6ece8379588a12d384bcf1.png/s/s600x/a/934144/sc/351',vid:'uploads/Fatburn.webm'},
+    {cat:'gym',kind:'Курс',badge:'',title:'Для зала',desc:'Мышцы снова растут — когда дома прогресс уже встал. Готовая программа для зала на мышечный объём.',img:'8261c10bf388dcc255c1368cf0ada516.png/s/s600x/a/934144/sc/182'},
+    {cat:'preg',kind:'Курс',badge:'',title:'Для беременных',desc:'Лёгкие роды и тело без перегрузки — безопасные тренировки на всех триместрах: спина, тазовое дно, подготовка к родам.',img:'670dcb85eab5786fd01def671ea3da4f.png/s/s600x/a/934144/sc/389'},
+    {cat:'preg',kind:'Курс',badge:'',title:'Восстановление после родов',desc:'Вернётесь в форму после родов и кесарева — сначала диастаз, тазовое дно и осанка, потом стройность и тонус.',img:'b88878684e2c798665d456e839aae6c7.png/s/s600x/a/934144/sc/97'},
+    {cat:'food',kind:'Программа',badge:'БЕСТСЕЛЛЕР',title:'ИИ-нутрициолог',desc:'Едите без срывов и понимаете своё тело — питание, тренировки, анализы в кармане. Подскажет, поддержит, не осудит.',img:'468c85a2ea7c865ae30349257111fd6f.png/s/s600x/a/934144/sc/104'},
+    {cat:'food',kind:'Курс',badge:'',title:'Курс по питанию',desc:'Сбросить вес без диет и жёстких ограничений. Избавиться от срывов, заедания и качелей веса.',img:'8471238dd04bfc42ccdcc32a9607164f.png/s/s600x/a/934144/sc/187'},
+    {cat:'self',kind:'Программа',badge:'',title:'Любовь к себе 1.0',desc:'Перестать ненавидеть своё отражение и тренироваться из любви, а не из злости. Для тех, кто худеет годами и недоволен собой.',img:'9c1c658f32e34dff3aa500d44a2a6e00.png/s/s600x/a/934144/sc/223'},
+    {cat:'self',kind:'Программа',badge:'',title:'Любовь к себе 2.0',desc:'Не приносить себя в жертву — ни делам, ни близким, ни еде. Вторая ступень после 1.0, для тех, кто живёт «потом».',img:'aa1e13d1be6e5c91fae1b4ea930dba97.png/s/s600x/a/934144/sc/417'},
+  ];
+
+  goals = ['Похудеть','Подтянуть ягодицы','Убрать живот','Восстановиться после родов','Набрать форму в зале','Питание без диет','Пока не определилась'];
+
+  faqs = [
+    {q:'Подойдёт ли мне программа, если я никогда не тренировалась?',a:'Да. На витрине есть программы для старта с нуля — например, Метод Усмановой и Марафон стройности. Катя показывает и объясняет каждое движение, вы просто повторяете.'},
+    {q:'Сколько времени в день нужно на тренировки?',a:'От 20 до 45 минут. Заниматься можно в любое удобное время — расписания нет, уроки открыты, включаете когда удобно днём или вечером.'},
+    {q:'Можно ли тренироваться дома? Нужно ли оборудование?',a:'Да, все программы рассчитаны на занятия дома. Для большинства достаточно коврика и собственного веса. Для некоторых пригодится фитнес-резинка, лёгкие гантели или утяжелители — их можно заменить бутылками с водой.'},
+    {q:'На какой срок открывается доступ к программе?',a:'Срок доступа указан в описании каждой программы.'},
+    {q:'Можно ли оплатить в рассрочку?',a:'Да, рассрочка доступна. Условия указаны при оформлении заказа.'},
+    {q:'Я живу не в России. Смогу заниматься?',a:'Да. Тренировки доступны в любой точке мира — нужен только смартфон, планшет или компьютер с интернетом.'},
+    {q:'Как я получу доступ после оплаты?',a:'Доступ открывается в личном кабинете сразу после оплаты. Авторизация — по номеру телефона, который вы указали при оформлении заказа.'},
+  ];
+
+  maskPhone(v){
+    if(!/\d/.test(v||'')) return '';
+    let d=(v||'').replace(/\D/g,'');
+    if(d[0]==='8') d='7'+d.slice(1);
+    if(d[0]!=='7') d='7'+d;
+    d=d.slice(0,11);
+    let r='+7';
+    if(d.length>1) r+=' ('+d.slice(1,Math.min(4,d.length));
+    if(d.length>=4) r+=')';
+    if(d.length>4) r+=' '+d.slice(4,Math.min(7,d.length));
+    if(d.length>7) r+='-'+d.slice(7,Math.min(9,d.length));
+    if(d.length>9) r+='-'+d.slice(9,11);
+    return r;
+  }
+
+  // ---- Tweak helpers ----
+  tw(){
+    return {
+      heading: this.props.headingStyle || 'Современный',
+      motion: this.props.motion || 'Бодрое',
+      corners: this.props.cornerStyle || 'Скруглённые',
+    };
+  }
+  buildTweakCSS(){
+    const r='#uf-root', t=this.tw();
+    const fonts={'Современный':"'Manrope',system-ui,sans-serif",'Журнальный':"'Lora',Georgia,serif",'Энергичный':"'Oswald','Manrope',sans-serif"};
+    let css=`${r} h1,${r} h2,${r} h3{font-family:${fonts[t.heading]||fonts['Современный']} !important;}`;
+    if(t.heading==='Журнальный'){ css+=`${r} h1,${r} h2,${r} h3{font-weight:700 !important;letter-spacing:-.01em;}`; }
+    if(t.heading==='Энергичный'){ css+=`${r} h1,${r} h2{text-transform:uppercase;letter-spacing:.01em;font-weight:700 !important;}${r} h3{letter-spacing:.005em;font-weight:600 !important;}`; }
+    if(t.corners==='Строгие'){ css+=`${r} *{border-radius:0 !important;}`; }
+    if(t.motion==='Выключить'){ css+=`${r} *{animation:none !important;}${r} [data-reveal]{transition:none !important;}`; }
+    if(t.motion==='Спокойное'){ css+=`${r} [data-fx]{animation:none !important;}`; }
+    return css;
+  }
+  applyTweaks(){
+    let s=document.getElementById('uf-tweaks');
+    if(!s){ s=document.createElement('style'); s.id='uf-tweaks'; document.head.appendChild(s); }
+    s.textContent=this.buildTweakCSS();
+  }
+
+  preloadProgramImages(){
+    const base='https://fs-thb02.getcourse.ru/fileservice/file/thumbnail/h/';
+    this._preloadedImgs=[];
+    this.programs.forEach(p=>{
+      if(p.img && !p.vid){ const im=new Image(); im.decoding='async'; im.src=base+p.img; this._preloadedImgs.push(im); }
+    });
+  }
+  componentDidMount(){
+    this._lastCat = this.state.cat;
+    this.preloadProgramImages();
+    this.applyTweaks();
+    this.startLiveCount();
+    const motion=this.tw().motion;
+    this.revealAll=()=>document.querySelectorAll('[data-reveal]').forEach(el=>{el.style.opacity='1';el.style.transform='none';});
+    if(motion==='Выключить'){
+      this.revealAll();
+      document.querySelectorAll('[data-count]').forEach(el=>{ const to=+el.getAttribute('data-count'); el.dataset.counted='1'; el.textContent=to.toLocaleString('ru-RU')+(el.getAttribute('data-suffix')||''); });
+      document.querySelectorAll('[data-cred-count]').forEach(el=>{ const to=+el.getAttribute('data-cred-count'); el.dataset.credCounted='1'; el.textContent=(to<0?'\u2212':'')+Math.abs(to); });
+    } else {
+      const travel = motion==='Спокойное' ? '12px' : '26px';
+      document.querySelectorAll('[data-reveal]').forEach(el=>{ el.style.transform='translateY('+travel+')'; });
+      try{
+        // Collect late-trigger section elements to exclude from main IO
+        const lateSections=[...document.querySelectorAll('[data-late-trigger]')];
+        const credsEls=new Set();
+        lateSections.forEach(s=>[...s.querySelectorAll('[data-reveal]')].forEach(el=>credsEls.add(el)));
+        const io=new IntersectionObserver((ents)=>{
+          ents.forEach(en=>{ if(en.isIntersecting){ const el=en.target; el.style.opacity='1'; el.style.transform='none'; io.unobserve(el);} });
+        },{threshold:0.08, rootMargin:'0px 0px -8% 0px'});
+        const seen=new Map();
+        document.querySelectorAll('[data-reveal]').forEach(el=>{
+          if(credsEls.has(el)) return; // managed by credsIo
+          const p=el.parentNode; const i=seen.get(p)||0; seen.set(p,i+1);
+          el.style.transitionDelay=(i*70)+'ms';
+          io.observe(el);
+        });
+        this._io=io;
+        // Late-trigger IO — scroll-based reveal for each section
+        this._lateIos=[]; this._lateScrollHandlers=[];
+        const trigger30=window.innerHeight*0.3;
+        lateSections.forEach(section=>{
+          const sEls=[...section.querySelectorAll('[data-reveal]')];
+          if(!sEls.length) return;
+          const revealSection=()=>{ sEls.forEach((el,i)=>setTimeout(()=>{ el.style.opacity='1'; el.style.transform='none'; },i*70)); };
+          const sIo=new IntersectionObserver((ents)=>{
+            if(ents[0].isIntersecting){
+              const sy=window.scrollY||window.pageYOffset;
+              if(sy<50){
+                sIo.disconnect();
+                const onScroll=()=>{
+                  if((window.scrollY||window.pageYOffset)>=trigger30){
+                    window.removeEventListener('scroll',onScroll);
+                    revealSection();
+                  }
+                };
+                this._lateScrollHandlers.push(onScroll);
+                window.addEventListener('scroll',onScroll,{passive:true});
+              } else { revealSection(); sIo.disconnect(); }
+            }
+          },{threshold:0.1, rootMargin:'0px 0px -10% 0px'});
+          sIo.observe(section);
+          this._lateIos.push(sIo);
+        });
+      }catch(e){ this.revealAll(); }
+      this._safety=setTimeout(()=>this.revealAll(),8000);
+      try{
+        const cio=new IntersectionObserver((ents)=>{
+          ents.forEach(en=>{ if(en.isIntersecting){ this.animateCount(en.target); cio.unobserve(en.target);} });
+        },{threshold:0.5});
+        document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
+        this._cio=cio;
+      }catch(e){}
+      try{
+        const credIo=new IntersectionObserver((ents)=>{
+          ents.forEach(en=>{ if(en.isIntersecting){ this.animateCred(en.target); credIo.unobserve(en.target);} });
+        },{threshold:0.6});
+        document.querySelectorAll('[data-cred-count]').forEach(el=>credIo.observe(el));
+        this._credIo=credIo;
+      }catch(e){}
+      this._countFallback=setTimeout(()=>{ document.querySelectorAll('[data-count]').forEach(el=>this.animateCount(el)); },3000);
+      this._credFallback=setTimeout(()=>{ document.querySelectorAll('[data-cred-count]').forEach(el=>this.animateCred(el)); },3000);
+    }
+    // header shadow + reading progress + back-to-top
+    this._hdr=document.querySelector('header');
+    this._bar=document.querySelector('[data-progress]');
+    this._toTop=document.querySelector('[data-totop]');
+    this._onScroll=()=>{
+      const y=window.scrollY||document.documentElement.scrollTop;
+      if(this._hdr) this._hdr.style.boxShadow = y>8 ? '0 6px 24px -12px rgba(0,0,0,.22)' : 'none';
+      if(this._bar){
+        const h=document.documentElement.scrollHeight-window.innerHeight;
+        this._bar.style.width=(h>0?Math.min(100,(y/h)*100):0)+'%';
+      }
+      if(this._toTop){
+        const on=y>620;
+        this._toTop.style.opacity=on?'1':'0';
+        this._toTop.style.transform=on?'translateY(0) scale(1)':'translateY(16px) scale(.9)';
+        this._toTop.style.pointerEvents=on?'auto':'none';
+      }
+    };
+    window.addEventListener('scroll',this._onScroll,{passive:true});
+    this._onScroll();
+    this.attachTilt();
+    this.attachVideoHover();
+    // Observe grid section for card stagger
+    try{
+      const pgrid=document.querySelector('#programs .uf-pgrid');
+      if(pgrid){
+        this._gridRevIo=new IntersectionObserver((ents)=>{
+          if(ents[0].isIntersecting){ this.staggerCards(false); this._gridRevIo.disconnect(); }
+        },{threshold:0.15, rootMargin:'0px 0px -20% 0px'});
+        this._gridRevIo.observe(pgrid);
+      }
+    }catch(e){}
+  }
+  componentDidUpdate(pp,ps){
+    this.applyTweaks();
+    const catChanged = this._lastCat!==undefined && this._lastCat!==this.state.cat;
+    this._lastCat = this.state.cat;
+    if(catChanged){
+      // Animate cards already in DOM + watch for sc-for additions
+      const pgrid=document.querySelector('#programs .uf-pgrid');
+      let idx=0;
+      const done=new WeakSet();
+      const animC=(card)=>{
+        if(done.has(card)) return;
+        done.add(card);
+        const i=idx++;
+        card.style.animation=`cardFadeIn .45s ${i*65}ms cubic-bezier(.2,.7,.2,1) both`;
+        const show=()=>{ card.style.opacity='1'; card.style.animation=''; };
+        setTimeout(show, 500+i*65);
+      };
+      [...document.querySelectorAll('#programs .uf-pgrid .uf-card')].forEach(animC);
+      if(this._tabMo) this._tabMo.disconnect();
+      if(pgrid){
+        const mo=new MutationObserver(muts=>{
+          muts.forEach(m=>m.addedNodes.forEach(n=>{
+            if(n.nodeType===1&&n.classList.contains('uf-card')) animC(n);
+          }));
+        });
+        mo.observe(pgrid,{childList:true});
+        this._tabMo=mo;
+      }
+      // Fallback: after sc-for settles, force-reveal any still-hidden cards
+      clearTimeout(this._tabFallback);
+      this._tabFallback=setTimeout(()=>{
+        if(this._tabMo){ this._tabMo.disconnect(); this._tabMo=null; }
+        document.querySelectorAll('#programs .uf-pgrid .uf-card').forEach(c=>{
+          if(c.style.opacity!=='1'){ c.style.opacity='1'; c.style.animation=''; }
+        });
+      }, 800);
+      requestAnimationFrame(()=>{
+        this.attachTilt();
+        this.attachVideoHover();
       });
+    } else {
+      this.attachTilt();
+      this.attachVideoHover();
+    }
+  }
+  generateBeamData(){
+    const palettes=[
+      ['#e81e5c','#ff7ba6'],['#ff7ba6','#ffeaf0'],['#f04e85','#ffb3cd'],
+      ['#e81e5c','#ffd0e0'],['#ffb3cd','#e81e5c'],['#ff4d8b','#ffeaf0'],['#c4174c','#ff7ba6']
+    ];
+    const positions=[42,54,66,78];
+    const stagger=0.9;
+    return positions.map((x,i)=>{
+      const dur=+(5.5+Math.random()*3).toFixed(2);
+      return { x, delay:+(i*stagger).toFixed(2), duration:dur,
+        ar:4+Math.floor(Math.random()*5), palette:palettes[i%palettes.length] };
     });
-  });
+  }
 
-  // FAQ accordion
-  document.querySelectorAll('.faq-q').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const item = btn.closest('.faq-item');
-      const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-      if (!isOpen) item.classList.add('open');
-    });
-  });
+  buildBeamEffect(){
+    if(!this._beamData) this._beamData=this.generateBeamData();
+    const makeBeam=(b,i,pfx)=>React.createElement('div',{key:`${pfx}-${i}`,style:{
+      position:'absolute',left:`${b.x}%`,top:0,width:'14%',
+      aspectRatio:`1/${b.ar}`,
+      background:`linear-gradient(${b.palette[0]}cc,${b.palette[1]}88,transparent)`,
+      filter:'blur(28px)',
+      borderRadius:'999px',
+      animation:`beamUp ${b.duration}s ${b.delay}s linear infinite backwards`,
+      transform:'translateX(-50%)',
+    }});
+    const makePlane=(pfx,planeStyle)=>React.createElement('div',{key:pfx,style:{
+      position:'absolute',transformStyle:'preserve-3d',
+      height:'560px',width:'100%',...planeStyle
+    }},this._beamData.map((b,i)=>makeBeam(b,i,pfx)));
+    return React.createElement('div',{style:{
+      pointerEvents:'none',position:'absolute',inset:0,
+      overflow:'hidden',clipPath:'inset(0)',zIndex:0,
+      perspective:'140px',perspectiveOrigin:'72% 50%',transformStyle:'preserve-3d',
+      animation:'beamsFadeIn .8s ease forwards',
+    }},
+      makePlane('top',{transformOrigin:'50% 0%',transform:'rotateX(-90deg)'}),
+      makePlane('bot',{top:'100%',transformOrigin:'50% 0%',transform:'rotateX(-90deg)'})
+    );
+  }
 
-  // Hero parallax on mouse (desktop only, respects reduced-motion)
-  const heroFigure = document.getElementById('heroFigure');
-  const heroParallax = document.getElementById('heroParallax');
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const finePointer = window.matchMedia('(pointer: fine)').matches;
-  if (heroFigure && heroParallax && !reduceMotion && finePointer) {
-    const hero = document.getElementById('hero');
-    let raf = null, tx = 0, ty = 0;
-    hero.addEventListener('mousemove', (e) => {
-      const r = hero.getBoundingClientRect();
-      const x = (e.clientX - r.left - r.width / 2) / r.width;
-      const y = (e.clientY - r.top - r.height / 2) / r.height;
-      tx = x * 24; ty = y * 24;
-      if (!raf) raf = requestAnimationFrame(() => {
-        heroParallax.style.transform = `translate(${tx}px, ${ty}px)`;
-        raf = null;
+  staggerCards(resetFirst){
+    if(this.tw().motion==='Выключить') return;
+    const cards=[...document.querySelectorAll('#programs .uf-pgrid .uf-card')];
+    if(this._cardIo){ this._cardIo.disconnect(); this._cardIo=null; }
+
+    if(resetFirst){
+      const pgrid=document.querySelector('#programs .uf-pgrid');
+      if(!pgrid) return;
+      let idx=0;
+      const animateCard=(card,i)=>{
+        card.style.animation='none';
+        card.style.opacity='0';
+        const delay=30+i*80;
+        setTimeout(()=>{
+          card.style.transition='';
+          card.style.animation=`cardFadeIn .55s cubic-bezier(.2,.7,.2,1) ${delay}ms both`;
+          const dur=550+delay+60;
+          setTimeout(()=>{ card.style.opacity='1'; card.style.animation=''; },dur);
+        },16);
+      };
+      // Animate cards already in DOM
+      cards.forEach(card=>animateCard(card,idx++));
+      // Watch for cards sc-for adds after this frame
+      if(this._tabMo){ this._tabMo.disconnect(); this._tabMo=null; }
+      const mo=new MutationObserver(muts=>{
+        muts.forEach(m=>m.addedNodes.forEach(n=>{
+          if(n.nodeType===1 && n.classList.contains('uf-card')) animateCard(n,idx++);
+        }));
       });
-    });
-    hero.addEventListener('mouseleave', () => {
-      heroParallax.style.transform = 'translate(0,0)';
-    });
-  }
-
-  // Lead form
-  const leadForm = document.getElementById('leadForm');
-  const nameInput = document.getElementById('lead-name');
-  const phoneInput = document.getElementById('lead-phone');
-
-  function setError(input, on) {
-    const field = input.closest('.field');
-    field.classList.toggle('show-error', on);
-    input.classList.toggle('invalid', on);
-  }
-
-  function validName() { return nameInput.value.trim().length >= 2; }
-  function validPhone() {
-    const digits = phoneInput.value.replace(/\D/g, '');
-    return digits.length >= 10 && digits.length <= 15;
-  }
-
-  // clear error as user fixes input
-  nameInput.addEventListener('input', () => { if (validName()) setError(nameInput, false); });
-  phoneInput.addEventListener('input', () => { if (validPhone()) setError(phoneInput, false); });
-
-  leadForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const okName = validName();
-    const okPhone = validPhone();
-    setError(nameInput, !okName);
-    setError(phoneInput, !okPhone);
-    if (!okName || !okPhone) {
-      (!okName ? nameInput : phoneInput).focus();
+      mo.observe(pgrid,{childList:true});
+      this._tabMo=mo;
+      setTimeout(()=>{ mo.disconnect(); this._tabMo=null; },2000);
       return;
     }
 
-    // simulate submit: loading -> success
-    const btn = document.getElementById('leadSubmit');
-    btn.disabled = true;
-    btn.textContent = 'Отправляем…';
-    setTimeout(() => {
-      document.getElementById('successName').textContent = nameInput.value.trim();
-      leadForm.style.display = 'none';
-      document.querySelector('.lead-consent')?.remove();
-      document.getElementById('leadSuccess').classList.add('show');
-    }, 700);
-  });
-</script>
+    // Initial reveal: per-card IO → row-by-row effect
+    cards.forEach(card=>{ card.style.animation='none'; card.style.opacity='0'; });
+    // Group cards by row (offsetTop)
+    const rowMap=new Map();
+    cards.forEach(card=>{
+      const row=Math.round(card.offsetTop/5)*5; // snap to 5px grid
+      if(!rowMap.has(row)) rowMap.set(row,[]);
+      rowMap.get(row).push(card);
+    });
+    const cardIo=new IntersectionObserver((ents)=>{
+      ents.forEach(en=>{
+        if(!en.isIntersecting) return;
+        const card=en.target;
+        const row=Math.round(card.offsetTop/5)*5;
+        const rowCards=rowMap.get(row)||[card];
+        const col=rowCards.indexOf(card);
+        card.style.animation=`cardFadeIn .55s ${col*85}ms cubic-bezier(.2,.7,.2,1) both`;
+        const onEnd=()=>{ card.style.opacity='1'; card.style.transform=''; card.style.animation=''; card.removeEventListener('animationend',onEnd); };
+        card.addEventListener('animationend',onEnd);
+        cardIo.unobserve(card);
+      });
+    },{threshold:0.5, rootMargin:'0px 0px -10% 0px'});
+    cards.forEach(card=>cardIo.observe(card));
+    this._cardIo=cardIo;
+  }
 
+  attachVideoHover(){
+    if(window.matchMedia&&window.matchMedia('(hover:none)').matches) return;
+    document.querySelectorAll('#programs .uf-card').forEach(card=>{
+      const raw=card.dataset.vid||'';
+      if(card.dataset.vhover===(raw||'__empty__')) return;
+      // Vid changed — remove leftover overlays AND stale hover listeners from previous attachment
+      card.querySelectorAll('[data-hover-overlay]').forEach(el=>el.remove());
+      if(card._vhEnter){ card.removeEventListener('mouseenter',card._vhEnter); card._vhEnter=null; }
+      if(card._vhLeave){ card.removeEventListener('mouseleave',card._vhLeave); card._vhLeave=null; }
+      if(card._leaveT1){ clearTimeout(card._leaveT1); card._leaveT1=null; }
+      card.dataset.vhover=raw||'__empty__';
+      if(!raw) return;
+      const wrap=card.querySelector('[data-imgwrap]'); if(!wrap) return;
+
+      // If card has a first-frame poster video — play a separate top layer on hover
+      const poster=wrap.querySelector('[data-poster-vid]');
+      if(poster){
+        let topVid=null;
+        poster.style.transition='opacity .3s ease';
+        // Beam element (behind video)
+        const beam=document.createElement('div');
+        beam.dataset.hoverOverlay='1';
+        Object.assign(beam.style,{
+          position:'absolute',inset:'-15%',zIndex:'2',
+          background:'radial-gradient(ellipse at 50% 50%,#e81e5c 0%,#ff7ba6 35%,transparent 70%)',
+          filter:'blur(28px)',opacity:'0',
+          transition:'opacity .5s ease',
+          pointerEvents:'none',
+        });
+        wrap.appendChild(beam);
+
+        const posterEnter=()=>{
+          // Cancel any in-progress leave sequence
+          if(card._leaveT1){ clearTimeout(card._leaveT1); card._leaveT1=null; }
+          if(card._leaveT2){ clearTimeout(card._leaveT2); card._leaveT2=null; }
+          if(card._enterT){ clearTimeout(card._enterT); card._enterT=null; }
+          if(!topVid){
+            topVid=document.createElement('video');
+            topVid.dataset.hoverOverlay='1';
+            topVid.src=poster.src; topVid.muted=true; topVid.loop=true; topVid.playsInline=true; topVid.preload='none';
+            Object.assign(topVid.style,{position:'absolute',inset:'0',width:'100%',height:'100%',objectFit:'cover',opacity:'0',transition:'none',zIndex:'3'});
+            wrap.appendChild(topVid);
+          }
+          // Beam: intro once (0→0.6→0.25), then seamless loop (0.25→0.6→0.25)
+          beam.style.transition='none';
+          if(beam._onIntroEnd){ beam.removeEventListener('animationend', beam._onIntroEnd); beam._onIntroEnd=null; }
+          void beam.offsetWidth;
+          beam._onIntroEnd=function(){ beam._onIntroEnd=null; beam.style.animation='beamLoop 4s ease-in-out infinite'; };
+          beam.addEventListener('animationend', beam._onIntroEnd, {once:true});
+          beam.style.animation='beamIntro 3s ease-in-out forwards';
+          // Re-enable loop — instant switch, no fade
+          topVid.loop=true;
+          topVid.style.transition='none';
+          topVid.style.opacity='1';
+          poster.style.opacity='0';
+          if(topVid.paused || topVid.ended){
+            topVid.currentTime=0;
+            topVid.play().catch(()=>{});
+          }
+
+        };
+        card.addEventListener('mouseenter',posterEnter); card._vhEnter=posterEnter;
+        const posterLeave=()=>{
+          if(topVid){
+            // Cancel intro listener if still pending
+            if(beam._onIntroEnd){ beam.removeEventListener('animationend', beam._onIntroEnd); beam._onIntroEnd=null; }
+            // Fade out glow
+            const currentOpacity=parseFloat(getComputedStyle(beam).opacity)||0;
+            beam.style.animation='none';
+            beam.style.opacity=currentOpacity;
+            void beam.offsetWidth;
+            beam.style.transition='opacity .35s ease';
+            beam.style.opacity='0';
+
+            // Disable loop — video plays to the end, then switch back to poster
+            if(card._leaveT1){ clearTimeout(card._leaveT1); card._leaveT1=null; }
+            card._leaveT1=setTimeout(()=>{
+              card._leaveT1=null;
+              topVid.loop=false;
+              // When video finishes playing, restore poster and hide overlay
+              const onEnded=()=>{
+                topVid.removeEventListener('ended',onEnded);
+                poster.style.transition='none';
+                poster.style.opacity='1';
+                topVid.style.transition='none';
+                topVid.style.opacity='0';
+              };
+              topVid.addEventListener('ended',onEnded);
+            }, 360);
+          }
+        };
+        card.addEventListener('mouseleave',posterLeave); card._vhLeave=posterLeave;
+        return;
+      }
+
+      // Support alpha video: vid can be "url" or JSON {"webm":"...","mp4":"..."}
+      let sources=[];
+      try{ const obj=JSON.parse(raw); sources=Object.entries(obj).map(([ext,url])=>({url,type:ext==='webm'?'video/webm; codecs=vp9':'video/mp4; codecs=hvc1'})); }
+      catch(e){ sources=[{url:raw,type:''}]; }
+      let vid=null;
+      const alphaEnter=()=>{
+        if(!vid){
+          vid=document.createElement('video');
+          vid.dataset.hoverOverlay='1';
+          vid.muted=true; vid.loop=true; vid.playsInline=true; vid.preload='none';
+          sources.forEach(({url,type})=>{
+            const s=document.createElement('source'); s.src=url; if(type) s.type=type; vid.appendChild(s);
+          });
+          Object.assign(vid.style,{position:'absolute',inset:'0',width:'100%',height:'100%',objectFit:'cover',opacity:'0',transition:'opacity .4s ease',zIndex:'3',borderRadius:'0'});
+          wrap.appendChild(vid);
+        }
+        vid.play().then(()=>{vid.style.opacity='1';}).catch(()=>{});
+      };
+      card.addEventListener('mouseenter',alphaEnter); card._vhEnter=alphaEnter;
+      const alphaLeave=()=>{
+        if(vid){vid.style.opacity='0'; setTimeout(()=>{try{vid.pause();}catch(e){}},400);}
+      };
+      card.addEventListener('mouseleave',alphaLeave); card._vhLeave=alphaLeave;
+    });
+  }
+
+  attachTilt(){
+    if(this.tw().motion==='Выключить') return;
+    if(window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+    if(window.matchMedia && window.matchMedia('(hover:none)').matches) return;
+    const max=6;
+    const proxR=120;      // px вне карточки, где начинается proximity-tilt
+    const proxMax=2.5;    // макс. градусов в proximity-зоне
+
+    const cards=[...document.querySelectorAll('#programs .uf-card')];
+    cards.forEach(card=>{
+      if(card.dataset.tilt) return; card.dataset.tilt='1';
+      card.addEventListener('mouseenter',()=>{
+        card._tiltInside=true;
+        card._tiltFirstMove=true;
+        if(card._catchupT){ clearTimeout(card._catchupT); card._catchupT=null; }
+        card.style.transition='transform .45s cubic-bezier(.2,.7,.2,1),box-shadow .45s cubic-bezier(.2,.7,.2,1)';
+        card.style.transform='perspective(820px) rotateY(0deg) rotateX(0deg) translateY(-4px)';
+        card.style.boxShadow='0 16px 48px rgba(0,0,0,.13)';
+      });
+      card.addEventListener('mousemove',e=>{
+        if(!card._tiltInside) return;
+        const r=card.getBoundingClientRect();
+        const px=(e.clientX-r.left)/r.width-0.5;
+        const py=(e.clientY-r.top)/r.height-0.5;
+        if(card._tiltFirstMove){
+          card._tiltFirstMove=false;
+          card.style.transition='transform .18s cubic-bezier(.2,.7,.2,1)';
+          if(card._catchupT) clearTimeout(card._catchupT);
+          card._catchupT=setTimeout(()=>{ card._catchupT=null; card.style.transition='none'; },200);
+        }
+        card.style.transform=`perspective(820px) rotateY(${(px*max).toFixed(2)}deg) rotateX(${(-py*max).toFixed(2)}deg) translateY(-4px)`;
+      });
+      card.addEventListener('mouseleave',()=>{
+        card._tiltInside=false;
+        card._tiltFirstMove=false;
+        if(card._catchupT){ clearTimeout(card._catchupT); card._catchupT=null; }
+        card.style.transition='transform .45s cubic-bezier(.2,.7,.2,1),box-shadow .45s cubic-bezier(.2,.7,.2,1)';
+        card.style.transform='';
+        card.style.boxShadow='';
+      });
+    });
+
+    // Proximity handler — срабатывает пока мышь снаружи карточки
+    if(this._proxMoveHandler) document.removeEventListener('mousemove',this._proxMoveHandler);
+    this._proxMoveHandler=e=>{
+      document.querySelectorAll('#programs .uf-card').forEach(card=>{
+        if(card._tiltInside) return;
+        const r=card.getBoundingClientRect();
+        // Ближайшая точка на границе карточки к позиции мыши
+        const cx=Math.max(r.left,Math.min(e.clientX,r.right));
+        const cy=Math.max(r.top,Math.min(e.clientY,r.bottom));
+        const dist=Math.sqrt((e.clientX-cx)**2+(e.clientY-cy)**2);
+        if(dist>0 && dist<proxR){
+          const t=1-dist/proxR; // 1 у границы, 0 на краю зоны
+          const halfW=(r.right-r.left)/2, halfH=(r.bottom-r.top)/2;
+          const dirX=(e.clientX-(r.left+halfW))/halfW;
+          const dirY=(e.clientY-(r.top+halfH))/halfH;
+          const ry=(dirX*proxMax*t).toFixed(2);
+          const rx=(-dirY*proxMax*t).toFixed(2);
+          const lift=(t*2).toFixed(2);
+          const shadowA=(t*0.07).toFixed(3);
+          const shadowY=Math.round(t*12);
+          const shadowB=Math.round(t*24);
+          card.style.transition='transform .55s cubic-bezier(.2,.7,.2,1),box-shadow .55s cubic-bezier(.2,.7,.2,1)';
+          card.style.transform=`perspective(820px) rotateY(${ry}deg) rotateX(${rx}deg) translateY(-${lift}px)`;
+          card.style.boxShadow=`0 ${shadowY}px ${shadowB}px rgba(0,0,0,${shadowA})`;
+          card._wasInProx=true;
+        } else if(card._wasInProx){
+          card._wasInProx=false;
+          card.style.transition='transform .55s cubic-bezier(.2,.7,.2,1),box-shadow .55s cubic-bezier(.2,.7,.2,1)';
+          card.style.transform='';
+          card.style.boxShadow='';
+        }
+      });
+    };
+    document.addEventListener('mousemove',this._proxMoveHandler,{passive:true});
+  }
+  componentWillUnmount(){
+    if(this._io)this._io.disconnect(); if(this._cio)this._cio.disconnect(); if(this._gridRevIo)this._gridRevIo.disconnect();
+    if(this._credIo)this._credIo.disconnect(); if(this._credFallback)clearTimeout(this._credFallback);
+    if(this._lateIos) this._lateIos.forEach(io=>io.disconnect());
+    if(this._lateScrollHandlers) this._lateScrollHandlers.forEach(h=>window.removeEventListener('scroll',h));
+    if(this._cardIo) this._cardIo.disconnect();
+    if(this._safety)clearTimeout(this._safety);
+    if(this._countFallback)clearTimeout(this._countFallback);
+    if(this._liveTimer)clearTimeout(this._liveTimer);
+    if(this._submitTimer)clearTimeout(this._submitTimer);
+    if(this._submitTimer2)clearTimeout(this._submitTimer2);
+    if(this._onScroll)window.removeEventListener('scroll',this._onScroll);
+  }
+  animateCount(el){
+    if(el.dataset.counted) return; el.dataset.counted='1';
+    const to=+el.getAttribute('data-count'); const suf=el.getAttribute('data-suffix')||'';
+    const dur=1500, t0=performance.now(), ease=t=>1-Math.pow(1-t,3);
+    const step=(now)=>{ const t=Math.min(1,(now-t0)/dur); const v=Math.round(to*ease(t)); el.textContent=v.toLocaleString('ru-RU')+suf; if(t<1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }
+  animateCred(el){
+    if(el.dataset.credCounted) return; el.dataset.credCounted='1';
+    const to=+el.getAttribute('data-cred-count');
+    const dur=1300, t0=performance.now(), ease=t=>1-Math.pow(1-t,3);
+    const fmt=v=>(v<0?'\u2212':'')+Math.abs(v);
+    const step=(now)=>{ const t=Math.min(1,(now-t0)/dur); const v=Math.round(to*ease(t)); el.textContent=fmt(v); if(t<1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }
+  setCat(id){
+    if(id===this.state.cat) return;
+    this.setState(s=>({cat:id, gridTick:s.gridTick+1}));
+  }
+  toggleFaq(i){ this.setState(s=>({faq: s.faq===i ? -1 : i})); }
+
+  submit(e){
+    if(e && e.preventDefault) e.preventDefault();
+    const errs={};
+    if((this.state.name||'').trim().length<2) errs.name='Как вас зовут?';
+    if((this.state.phone||'').replace(/\D/g,'').length!==11) errs.phone='Введите корректный номер';
+    if(!this.state.goal) errs.goal='Выберите цель';
+    if(!this.state.consent) errs.consent='Подтвердите согласие';
+    if(Object.keys(errs).length){
+      this.setState({errs, shakeTick: 0}, () => {
+        requestAnimationFrame(() => {
+          this.setState({shakeTick: this.state.shakeTick + 1});
+        });
+      });
+      return;
+    }
+    this.setState({submitting:true, flipped:true, errs:{}});
+    if(this._submitTimer) clearTimeout(this._submitTimer);
+    this._submitTimer=setTimeout(()=>{
+      this.setState({submitting:false, submitted:true});
+      const ring=document.querySelector('[data-ring-anim]');
+      const check=document.querySelector('[data-check-anim]');
+      if(ring){ ring.style.animation='none'; void ring.offsetWidth; ring.style.animation='ring 1.1s ease-out 0.05s both'; }
+      if(check){ check.style.animation='none'; void check.offsetWidth; check.style.animation='popIn .5s .15s cubic-bezier(.2,.8,.3,1.4) both'; }
+    }, 820);
+    if(this._submitTimer2) clearTimeout(this._submitTimer2);
+    this._submitTimer2=setTimeout(()=>{ this._beamData=null; this.setState({beamsActive:true}); }, 720);
+  }
+  reset(){
+    const ring=document.querySelector('[data-ring-anim]');
+    const check=document.querySelector('[data-check-anim]');
+    if(ring) ring.style.animation='none';
+    if(check) check.style.animation='none';
+    if(this._submitTimer2) clearTimeout(this._submitTimer2);
+    this.setState({name:'',phone:'',goal:'',consent:false,submitted:false,submitting:false,flipped:false,beamsActive:false,errs:{}});
+  }
+
+  startLiveCount(){
+    const el=document.querySelector('[data-live-count]');
+    if(!el) return;
+    const fmt=n=>n.toLocaleString('ru-RU').replace(/\u00A0/g,' ').replace(/,/g,' ');
+    let val=3696;
+    el.textContent=fmt(val);
+    const reduced = (window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches) || this.tw().motion==='Выключить';
+    if(reduced) return;
+    const tick=()=>{
+      const drift = Math.floor(Math.random()*9) - 3; // -3..+5, gentle upward bias
+      val = Math.max(3550, Math.min(3920, val + drift));
+      el.textContent=fmt(val);
+      el.style.animation='none';
+      void el.offsetWidth;
+      el.style.animation='liveBump .5s ease';
+      this._liveTimer=setTimeout(tick, 2200 + Math.random()*2600);
+    };
+    this._liveTimer=setTimeout(tick, 2600);
+  }
+
+  renderVals(){
+    const base='https://fs-thb02.getcourse.ru/fileservice/file/thumbnail/h/';
+    const cat=this.state.cat, faqOpen=this.state.faq;
+    const tabRadius = this.tw().corners==='Строгие' ? '0px' : '999px';
+    const tabBase={display:'inline-flex',alignItems:'center',whiteSpace:'nowrap',padding:'11px 20px',borderRadius:tabRadius,fontSize:'15px',fontWeight:'600',cursor:'pointer',transition:'all .15s',fontFamily:'inherit'};
+    const tabs=this.cats.map(c=>({
+      name:c.name,
+      onClick:()=>this.setCat(c.id),
+      style: c.id===cat
+        ? {...tabBase, background:'#16130f', color:'#fff', border:'1.5px solid #16130f'}
+        : {...tabBase, background:'#fff', color:'#16130f', border:'1.5px solid #ece4df'}
+    }));
+    const visible=this.programs.filter(p=>p.cat===cat).map(p=>({
+      kind:p.kind, badge:p.badge, title:p.title, desc:p.desc,
+      href:'https://usmanovafit.gymteam.ru/maysale2026_7',
+      vidSrc: p.vid||'',
+      imgEl: (p.vid&&!p.vid.startsWith('http'))
+        ? React.createElement('video',{'data-poster-vid':'1',src:p.vid,muted:true,playsInline:true,preload:'auto',
+            style:{position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'cover'}})
+        : React.createElement('img',{src:base+p.img, alt:p.title, className:'uf-pimg',
+            onError:e=>{ e.target.style.display='none'; },
+            style:{position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'cover'}})
+    }));
+    const faqList=this.faqs.map((f,i)=>({
+      q:f.q, a:f.a, open:i===faqOpen, onClick:()=>this.toggleFaq(i),
+      iconStyle:{display:'inline-flex',flex:'none',transition:'transform .25s',transform:i===faqOpen?'rotate(45deg)':'rotate(0deg)'}
+    }));
+    return {
+      tabs, visible, faqList,
+      gridAnim: this.state.gridTick===0 ? 'none' : ((this.state.gridTick%2) ? 'gridFade .42s ease both' : 'gridFade2 .42s ease both'),
+      name:this.state.name, phone:this.state.phone, goal:this.state.goal, consent:this.state.consent,
+      goals:this.goals,
+      onName:e=>this.setState(s=>{const errs={...s.errs};delete errs.name;return {name:e.target.value,errs};}),
+      onPhone:e=>this.setState(s=>{const errs={...s.errs};delete errs.phone;return {phone:this.maskPhone(e.target.value),errs};}),
+      onGoal:e=>this.setState(s=>{const errs={...s.errs};delete errs.goal;return {goal:e.target.value,errs};}),
+      onConsent:e=>this.setState(s=>{const errs={...s.errs};delete errs.consent;return {consent:e.target.checked,errs};}),
+      submit:e=>this.submit(e), reset:()=>this.reset(),
+      submitted:this.state.submitted, notSubmitted:!this.state.submitted,
+      beamEffect: this.state.beamsActive ? this.buildBeamEffect() : null,
+      cardInnerStyle: {
+        display:'grid',
+        alignItems:'stretch',
+        transformStyle:'preserve-3d',
+        transition:'transform .75s cubic-bezier(.4,0,.2,1)',
+        transform: this.state.flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+        willChange:'transform',
+      },
+      submitting:this.state.submitting, notSubmitting:!this.state.submitting,
+      nameValid:(this.state.name||'').trim().length>=2,
+      phoneValid:(this.state.phone||'').replace(/\D/g,'').length===11,
+      submitBtnStyle:{marginTop:'4px',background:'#e81e5c',color:'#fff',fontFamily:'inherit',fontWeight:700,fontSize:'17px',padding:'17px',borderRadius:'12px',border:'none',cursor:this.state.submitting?'default':'pointer',boxShadow:'0 14px 30px -10px rgba(232,30,92,.5)',transition:'background .15s,transform .12s',opacity:this.state.submitting?.85:1},
+      scrollTop:()=>window.scrollTo({top:0,behavior:'smooth'}),
+      nameBorder: this.state.errs.name ? '1.5px solid #e81e5c' : '1.5px solid #e6ddd8',
+      phoneBorder: this.state.errs.phone ? '1.5px solid #e81e5c' : '1.5px solid #e6ddd8',
+      nameShake: this.state.errs.name ? `uf-shake uf-shake-${this.state.shakeTick}` : '',
+      phoneShake: this.state.errs.phone ? `uf-shake uf-shake-${this.state.shakeTick}` : '',
+      goalShake: this.state.errs.goal ? `uf-shake uf-shake-${this.state.shakeTick}` : '',
+      goalBorder: this.state.errs.goal ? '1.5px solid #e81e5c' : '1.5px solid #e6ddd8',
+      consentShake: this.state.errs.consent ? `uf-shake uf-shake-${this.state.shakeTick}` : '',
+      consentTextColor: this.state.errs.consent ? '#e81e5c' : '#6f6862',
+      consentOutline: this.state.errs.consent ? '2px solid #e81e5c' : 'none',
+      nameErr: this.state.errs.name || '',
+      phoneErr: this.state.errs.phone || '',
+      goalErr: this.state.errs.goal || '',
+    };
+  }
+}
+</script>
 </body>
 </html>
