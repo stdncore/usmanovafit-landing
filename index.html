@@ -37,6 +37,7 @@
     @keyframes livePulse{0%{transform:scale(.85);opacity:1;box-shadow:0 0 0 0 rgba(34,178,108,.55)}70%{transform:scale(1);opacity:.9;box-shadow:0 0 0 7px rgba(34,178,108,0)}100%{transform:scale(.85);opacity:1;box-shadow:0 0 0 0 rgba(34,178,108,0)}}
     @keyframes liveBump{0%{transform:translateY(0)}40%{transform:translateY(-2px)}100%{transform:translateY(0)}}
     @keyframes spin{to{transform:rotate(360deg)}}
+    @keyframes shimmer{0%{background-position:120% 0}100%{background-position:-120% 0}}
     .uf-pimg{transition:transform .5s cubic-bezier(.2,.7,.2,1)}
     #uf-root .uf-card:hover .uf-pimg{transform:scale(1.07)}
     @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}[data-reveal]{opacity:1!important;transform:none!important}#uf-root .uf-card:hover .uf-pimg{transform:none}}
@@ -78,6 +79,13 @@
       #form .uf-namerow label{width:100% !important}
       #form .uf-namerow input{width:100% !important}
     }
+    .uf-cta-sm{display:none}
+    @media(max-width:480px){
+      header .uf-cta{padding:10px 16px !important;font-size:13px !important;white-space:nowrap}
+      header .uf-cta .uf-cta-lg{display:none}
+      header .uf-cta .uf-cta-sm{display:inline}
+      header a[href="#top"] span:last-child{font-size:16px !important}
+    }
   </style>
 </helmet>
 <template id="__bundler_thumbnail">
@@ -96,7 +104,7 @@
         <span style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:9px;background:#e81e5c;color:#fff;font-weight:800;font-size:18px">U</span>
         <span style="font-weight:800;font-size:18px;letter-spacing:-.02em">USMANOVA<span style="color:#e81e5c">FIT</span></span>
       </a>
-      <a href="#form" style="display:inline-flex;align-items:center;justify-content:center;background:#e81e5c;color:#fff;font-weight:700;font-size:14px;padding:11px 20px;border-radius:999px;text-decoration:none;transition:background .15s" style-hover="background:#c4174c">Подобрать программу</a>
+      <a href="#form" class="uf-cta" style="display:inline-flex;align-items:center;justify-content:center;background:#e81e5c;color:#fff;font-weight:700;font-size:14px;padding:11px 20px;border-radius:999px;text-decoration:none;white-space:nowrap;transition:background .15s" style-hover="background:#c4174c"><span class="uf-cta-lg">Подобрать программу</span><span class="uf-cta-sm">Подобрать</span></a>
     </div>
   </header>
 
@@ -124,8 +132,8 @@
         <div data-fx="blob" aria-hidden="true" style="position:absolute;width:62%;height:62%;right:-8%;top:-9%;border-radius:50%;background:radial-gradient(circle,#ffb3cd,transparent 70%);filter:blur(18px);opacity:.6;animation:blob 9s ease-in-out infinite;pointer-events:none;z-index:0"></div>
         <div data-fx="blob" aria-hidden="true" style="position:absolute;width:46%;height:46%;left:-10%;bottom:4%;border-radius:50%;background:radial-gradient(circle,#ffd0a8,transparent 70%);filter:blur(20px);opacity:.5;animation:blob 11s ease-in-out infinite reverse;pointer-events:none;z-index:0"></div>
         <div style="position:relative;z-index:1;aspect-ratio:4/5;border-radius:26px;overflow:hidden;background:linear-gradient(135deg,#ffd9e6,#ffeaf0);box-shadow:0 34px 80px -34px rgba(232,30,92,.5)">
-          <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:13px;color:#d99ab1">фото · Катя Усманова</span>
-          <img src="https://fs-thb02.getcourse.ru/fileservice/file/thumbnail/h/8d7e3aa384b597937b9504925ead6325.png/s/s1200x/a/934144/sc/68" onerror="this.style.display='none'" alt="Катя Усманова" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" />
+          <span data-hero-skeleton aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(110deg,#ffe1ec 8%,#ffd0e0 20%,#ffe1ec 34%);background-size:220% 100%;animation:shimmer 1.5s linear infinite"></span>
+          <img data-hero-img src="https://fs-thb02.getcourse.ru/fileservice/file/thumbnail/h/8d7e3aa384b597937b9504925ead6325.png/s/s1200x/a/934144/sc/68" alt="Катя Усманова" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" />
         </div>
         <div data-fx="float" style="position:absolute;z-index:2;left:-6px;bottom:20px;background:#fff;border-radius:18px;padding:14px 18px;box-shadow:0 20px 44px -18px rgba(0,0,0,.28);display:flex;align-items:center;gap:13px;animation:floatY 5s ease-in-out infinite">
           <span style="flex:none;width:42px;height:42px;border-radius:12px;background:#ffe7ef;color:#e81e5c;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800">★</span>
@@ -183,7 +191,7 @@
               <sc-if value="{{ p.vidSrc }}" hint-placeholder-val="">
                 <span aria-hidden="true" style="position:absolute;bottom:12px;right:12px;z-index:4;width:32px;height:32px;border-radius:50%;background:rgba(22,19,15,.55);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;transition:opacity .2s;pointer-events:none">▶</span>
               </sc-if>
-              <span style="font-family:monospace;font-size:12px;color:#cba6b6;padding:0 14px;text-align:center">{{ p.title }}</span>
+              <span data-skeleton aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(110deg,#fbe7ee 8%,#f7dde7 20%,#fbe7ee 34%);background-size:220% 100%;animation:shimmer 1.5s linear infinite"></span>
               <sc-if value="{{ p.imgEl }}" hint-placeholder-val="">
                 {{ p.imgEl }}
               </sc-if>
@@ -384,6 +392,17 @@ class Component extends DCLogic {
     {q:'Как я получу доступ после оплаты?',a:'Доступ открывается в личном кабинете сразу после оплаты. Авторизация — по номеру телефона, который вы указали при оформлении заказа.'},
   ];
 
+  // VP9-alpha WebM renders transparency only in Blink/Gecko on non-iOS.
+  // Safari (desktop + iOS) and all iOS browsers show black instead — fall back to a static image there.
+  alphaWebmOK(){
+    if(this._alphaOK!==undefined) return this._alphaOK;
+    const ua=(navigator.userAgent||'');
+    const isIOS=/iP(ad|hone|od)/.test(ua) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
+    const isWebKit=/AppleWebKit/.test(ua) && !/Chrome|Chromium|CriOS|Edg|OPR|FxiOS/.test(ua);
+    this._alphaOK = !isIOS && !isWebKit;
+    return this._alphaOK;
+  }
+
   maskPhone(v){
     if(!/\d/.test(v||'')) return '';
     let d=(v||'').replace(/\D/g,'');
@@ -428,7 +447,7 @@ class Component extends DCLogic {
     const base='https://fs-thb02.getcourse.ru/fileservice/file/thumbnail/h/';
     this._preloadedImgs=[];
     this.programs.forEach(p=>{
-      if(p.img && !p.vid){ const im=new Image(); im.decoding='async'; im.src=base+p.img; this._preloadedImgs.push(im); }
+      if(p.img && (!p.vid || !this.alphaWebmOK())){ const im=new Image(); im.decoding='async'; im.src=base+p.img; this._preloadedImgs.push(im); }
     });
   }
   componentDidMount(){
@@ -444,6 +463,7 @@ class Component extends DCLogic {
       document.querySelectorAll('[data-cred-count]').forEach(el=>{ const to=+el.getAttribute('data-cred-count'); el.dataset.credCounted='1'; el.textContent=(to<0?'\u2212':'')+Math.abs(to); });
     } else {
       const travel = motion==='Спокойное' ? '12px' : '26px';
+      const isMobileVP = window.innerWidth<=559;
       document.querySelectorAll('[data-reveal]').forEach(el=>{ el.style.transform='translateY('+travel+')'; });
       try{
         // Collect late-trigger section elements to exclude from main IO
@@ -452,7 +472,7 @@ class Component extends DCLogic {
         lateSections.forEach(s=>[...s.querySelectorAll('[data-reveal]')].forEach(el=>credsEls.add(el)));
         const io=new IntersectionObserver((ents)=>{
           ents.forEach(en=>{ if(en.isIntersecting){ const el=en.target; el.style.opacity='1'; el.style.transform='none'; io.unobserve(el);} });
-        },{threshold:0.08, rootMargin:'0px 0px -8% 0px'});
+        },{threshold: isMobileVP?0.01:0.08, rootMargin: isMobileVP?'0px 0px -16% 0px':'0px 0px -8% 0px'});
         const seen=new Map();
         document.querySelectorAll('[data-reveal]').forEach(el=>{
           if(credsEls.has(el)) return; // managed by credsIo
@@ -483,7 +503,7 @@ class Component extends DCLogic {
                 window.addEventListener('scroll',onScroll,{passive:true});
               } else { revealSection(); sIo.disconnect(); }
             }
-          },{threshold:0.1, rootMargin:'0px 0px -10% 0px'});
+          },{threshold:0.1, rootMargin: isMobileVP?'0px 0px -16% 0px':'0px 0px -10% 0px'});
           sIo.observe(section);
           this._lateIos.push(sIo);
         });
@@ -528,6 +548,9 @@ class Component extends DCLogic {
     this._onScroll();
     this.attachTilt();
     this.attachVideoHover();
+    this.attachVideoAutoplay();
+    this.syncSkeletons();
+    setTimeout(()=>this.syncSkeletons(),600);
     // Observe grid section for card stagger
     try{
       const pgrid=document.querySelector('#programs .uf-pgrid');
@@ -578,10 +601,14 @@ class Component extends DCLogic {
       requestAnimationFrame(()=>{
         this.attachTilt();
         this.attachVideoHover();
+        this.attachVideoAutoplay();
+        this.syncSkeletons();
       });
     } else {
       this.attachTilt();
       this.attachVideoHover();
+      this.attachVideoAutoplay();
+      this.syncSkeletons();
     }
   }
   generateBeamData(){
@@ -610,17 +637,26 @@ class Component extends DCLogic {
       transform:'translateX(-50%)',
     }});
     const makePlane=(pfx,planeStyle)=>React.createElement('div',{key:pfx,style:{
-      position:'absolute',transformStyle:'preserve-3d',
+      position:'absolute',transformStyle:'preserve-3d',WebkitTransformStyle:'preserve-3d',
       height:'560px',width:'100%',...planeStyle
     }},this._beamData.map((b,i)=>makeBeam(b,i,pfx)));
+    // Outer layer ONLY clips. The perspective/preserve-3d lives on a separate inner
+    // layer with no overflow — otherwise `overflow:hidden` forces transform-style:flat
+    // (per spec, strictly enforced by iOS Safari) and the rotated planes collapse.
     return React.createElement('div',{style:{
       pointerEvents:'none',position:'absolute',inset:0,
       overflow:'hidden',clipPath:'inset(0)',zIndex:0,
-      perspective:'140px',perspectiveOrigin:'72% 50%',transformStyle:'preserve-3d',
       animation:'beamsFadeIn .8s ease forwards',
     }},
-      makePlane('top',{transformOrigin:'50% 0%',transform:'rotateX(-90deg)'}),
-      makePlane('bot',{top:'100%',transformOrigin:'50% 0%',transform:'rotateX(-90deg)'})
+      React.createElement('div',{style:{
+        position:'absolute',inset:0,
+        perspective:'140px',WebkitPerspective:'140px',
+        perspectiveOrigin:'72% 50%',WebkitPerspectiveOrigin:'72% 50%',
+        transformStyle:'preserve-3d',WebkitTransformStyle:'preserve-3d',
+      }},
+        makePlane('top',{transformOrigin:'50% 0%',transform:'rotateX(-90deg)'}),
+        makePlane('bot',{top:'100%',transformOrigin:'50% 0%',transform:'rotateX(-90deg)'})
+      )
     );
   }
 
@@ -683,6 +719,45 @@ class Component extends DCLogic {
     },{threshold:0.5, rootMargin:'0px 0px -10% 0px'});
     cards.forEach(card=>cardIo.observe(card));
     this._cardIo=cardIo;
+  }
+
+  syncSkeletons(){
+    // Hero image skeleton
+    const heroImg=document.querySelector('[data-hero-img]'), heroSk=document.querySelector('[data-hero-skeleton]');
+    if(heroImg&&heroSk&&heroSk.style.display!=='none'){
+      const hideHero=()=>{ heroSk.style.transition='opacity .4s ease'; heroSk.style.opacity='0'; setTimeout(()=>{ heroSk.style.display='none'; },420); };
+      if(heroImg.complete&&heroImg.naturalWidth>0) hideHero();
+      else if(!heroImg.dataset.skBound){ heroImg.dataset.skBound='1'; heroImg.addEventListener('load',hideHero); heroImg.addEventListener('error',()=>{ heroImg.style.display='none'; hideHero(); }); }
+    }
+    document.querySelectorAll('#programs .uf-card [data-imgwrap]').forEach(w=>{
+      const sk=w.querySelector('[data-skeleton]'); if(!sk||sk.style.display==='none') return;
+      const img=w.querySelector('img'); const vid=w.querySelector('[data-poster-vid]');
+      const ready=(img&&img.complete&&img.naturalWidth>0)||(vid&&vid.readyState>=2);
+      if(ready){ sk.style.transition='opacity .4s ease'; sk.style.opacity='0'; setTimeout(()=>{ sk.style.display='none'; },420); }
+    });
+  }
+
+  attachVideoAutoplay(){
+    // Touch / no-hover devices only — desktop uses hover-to-play.
+    if(!(window.matchMedia && window.matchMedia('(hover:none)').matches)) return;
+    if(this.tw().motion==='Выключить') return;
+    if(!this._autoplayIo){
+      this._autoplayIo=new IntersectionObserver((ents)=>{
+        ents.forEach(en=>{
+          const v=en.target;
+          if(en.isIntersecting){
+            v.loop=true; v.muted=true;
+            const p=v.play(); if(p&&p.catch) p.catch(()=>{});
+          } else { try{ v.pause(); }catch(e){} }
+        });
+      },{threshold:0.45});
+    }
+    document.querySelectorAll('#programs .uf-card [data-poster-vid]').forEach(v=>{
+      if(v.dataset.vautoplay) return;
+      v.dataset.vautoplay='1';
+      v.muted=true; v.loop=true; v.playsInline=true; v.setAttribute('playsinline','');
+      this._autoplayIo.observe(v);
+    });
   }
 
   attachVideoHover(){
@@ -889,6 +964,7 @@ class Component extends DCLogic {
     if(this._lateIos) this._lateIos.forEach(io=>io.disconnect());
     if(this._lateScrollHandlers) this._lateScrollHandlers.forEach(h=>window.removeEventListener('scroll',h));
     if(this._cardIo) this._cardIo.disconnect();
+    if(this._autoplayIo) this._autoplayIo.disconnect();
     if(this._safety)clearTimeout(this._safety);
     if(this._countFallback)clearTimeout(this._countFallback);
     if(this._liveTimer)clearTimeout(this._liveTimer);
@@ -976,6 +1052,7 @@ class Component extends DCLogic {
   renderVals(){
     const base='https://fs-thb02.getcourse.ru/fileservice/file/thumbnail/h/';
     const cat=this.state.cat, faqOpen=this.state.faq;
+    const alphaOK=this.alphaWebmOK();
     const tabRadius = this.tw().corners==='Строгие' ? '0px' : '999px';
     const tabBase={display:'inline-flex',alignItems:'center',whiteSpace:'nowrap',padding:'11px 20px',borderRadius:tabRadius,fontSize:'15px',fontWeight:'600',cursor:'pointer',transition:'all .15s',fontFamily:'inherit'};
     const tabs=this.cats.map(c=>({
@@ -985,15 +1062,18 @@ class Component extends DCLogic {
         ? {...tabBase, background:'#16130f', color:'#fff', border:'1.5px solid #16130f'}
         : {...tabBase, background:'#fff', color:'#16130f', border:'1.5px solid #ece4df'}
     }));
+    const hideSkeleton=(el)=>{ const w=el&&el.closest&&el.closest('[data-imgwrap]'); const sk=w&&w.querySelector('[data-skeleton]'); if(sk){ sk.style.transition='opacity .4s ease'; sk.style.opacity='0'; setTimeout(()=>{ sk.style.display='none'; },420); } };
     const visible=this.programs.filter(p=>p.cat===cat).map(p=>({
       kind:p.kind, badge:p.badge, title:p.title, desc:p.desc,
       href:'https://usmanovafit.gymteam.ru/maysale2026_7',
-      vidSrc: p.vid||'',
-      imgEl: (p.vid&&!p.vid.startsWith('http'))
+      vidSrc: (p.vid && !p.vid.startsWith('http') && alphaOK) ? p.vid : '',
+      imgEl: (p.vid && !p.vid.startsWith('http') && alphaOK)
         ? React.createElement('video',{'data-poster-vid':'1',src:p.vid,muted:true,playsInline:true,preload:'auto',
+            onLoadedData:e=>hideSkeleton(e.target),
             style:{position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'cover'}})
         : React.createElement('img',{src:base+p.img, alt:p.title, className:'uf-pimg',
-            onError:e=>{ e.target.style.display='none'; },
+            onLoad:e=>hideSkeleton(e.target),
+            onError:e=>{ e.target.style.display='none'; hideSkeleton(e.target); },
             style:{position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'cover'}})
     }));
     const faqList=this.faqs.map((f,i)=>({
