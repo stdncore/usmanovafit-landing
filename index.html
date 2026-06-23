@@ -811,19 +811,27 @@ class Component extends DCLogic {
           beam._onIntroEnd=function(){ beam._onIntroEnd=null; beam.style.animation='beamLoop 4s ease-in-out infinite'; };
           beam.addEventListener('animationend', beam._onIntroEnd, {once:true});
           beam.style.animation='beamIntro 3s ease-in-out forwards';
-          // Re-enable loop — instant switch, no fade
+          // Re-enable loop
           topVid.loop=true;
-          topVid.style.transition='none';
-          topVid.style.opacity='1';
-          poster.style.opacity='0';
-          if(topVid.paused || topVid.ended){
-            topVid.currentTime=0;
+          const sid=(card._enterSid=(card._enterSid||0)+1);
+          const doSwap=()=>{
+            if(card._enterSid!==sid) return;
+            topVid.style.transition='none';
+            topVid.style.opacity='1';
+            poster.style.opacity='0';
+          };
+          if(topVid.readyState>=2){
+            doSwap();
+            if(topVid.paused||topVid.ended){ topVid.currentTime=0; topVid.play().catch(()=>{}); }
+          } else {
+            topVid.addEventListener('canplay',doSwap,{once:true});
             topVid.play().catch(()=>{});
           }
 
         };
         card.addEventListener('mouseenter',posterEnter); card._vhEnter=posterEnter;
         const posterLeave=()=>{
+          card._enterSid=(card._enterSid||0)+1;
           if(topVid){
             // Cancel intro listener if still pending
             if(beam._onIntroEnd){ beam.removeEventListener('animationend', beam._onIntroEnd); beam._onIntroEnd=null; }
