@@ -143,7 +143,7 @@
     </div>
   </section>
 
-  <section data-late-trigger style="max-width:1180px;margin:0 auto;padding:clamp(46px,7vw,86px) 22px">
+  <section style="max-width:1180px;margin:0 auto;padding:clamp(46px,7vw,86px) 22px">
     <h2 data-reveal style="opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1);font-size:clamp(26px,3.6vw,40px);line-height:1.1;letter-spacing:-.02em;font-weight:800;margin:0;max-width:760px">Доверьте своё тело чемпионке фитнес-бикини и тренеру</h2>
     <p data-reveal style="opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1);font-size:clamp(15px,1.6vw,17px);line-height:1.55;color:#6f6862;margin:16px 0 0;max-width:640px">С 2015 года Катя создаёт топовые тренировки для идеальных ягодиц, плоского живота и стройности — без жёстких диет.</p>
     <div class="uf-creds" style="margin-top:30px">
@@ -471,13 +471,13 @@ class Component extends DCLogic {
         const credsEls=new Set();
         lateSections.forEach(s=>[...s.querySelectorAll('[data-reveal]')].forEach(el=>credsEls.add(el)));
         const io=new IntersectionObserver((ents)=>{
-          ents.forEach(en=>{ if(en.isIntersecting){ const el=en.target; el.style.opacity='1'; el.style.transform='none'; io.unobserve(el);} });
+          // Stagger by intersecting batch: cascade when items enter together,
+          // zero delay when a single block scrolls in (true per-block reveal).
+          const vis=ents.filter(en=>en.isIntersecting);
+          vis.forEach((en,i)=>{ const el=en.target; el.style.transitionDelay=(i*70)+'ms'; el.style.opacity='1'; el.style.transform='none'; io.unobserve(el); });
         },{threshold: isMobileVP?0.01:0.08, rootMargin: isMobileVP?'0px 0px -16% 0px':'0px 0px -8% 0px'});
-        const seen=new Map();
         document.querySelectorAll('[data-reveal]').forEach(el=>{
           if(credsEls.has(el)) return; // managed by credsIo
-          const p=el.parentNode; const i=seen.get(p)||0; seen.set(p,i+1);
-          el.style.transitionDelay=(i*70)+'ms';
           io.observe(el);
         });
         this._io=io;
