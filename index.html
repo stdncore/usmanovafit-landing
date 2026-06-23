@@ -749,10 +749,11 @@ class Component extends DCLogic {
           const v=en.target;
           if(en.isIntersecting){
             v.loop=true; v.muted=true;
+            if(v.readyState===0) v.load();
             const p=v.play(); if(p&&p.catch) p.catch(()=>{});
           } else { try{ v.pause(); }catch(e){} }
         });
-      },{threshold:0.45});
+      },{threshold:0.1});
     }
     document.querySelectorAll('#programs .uf-card [data-poster-vid]').forEach(v=>{
       if(v.dataset.vautoplay) return;
